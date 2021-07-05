@@ -1,0 +1,50 @@
+<mvc:View
+    controllerName="oup.pms.ecp.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns:m="sap.m"
+	xmlns="sap.uxap">
+
+	<m:Shell id="shell-id">
+		<m:App id="app-id">
+			<m:pages>
+                <!-- page -->
+				<ObjectPageLayout id="object-page-layout-id"
+                    busy="{oViewModel>/busy}"
+                    showFooter="{oViewModel>/edit}"
+                    useTwoColumnsForLargeScreen="true"
+                    upperCaseAnchorBar="false">
+
+                    <!-- header section -->
+                    <headerTitle>
+                        <ObjectPageHeader 
+                            objectTitle="{i18n>OBJ_TITLE}">
+                            <actions>
+                                <m:ToggleButton 
+                                    text="Edit" 
+                                    type="Emphasized"
+                                    press=".handleEdit"
+                                    pressed="{oViewModel>/edit}" 
+                                    visible="{= !${oViewModel>/edit}}"/>
+                                <m:Button 
+                                    text="Delete"
+                                    press=".handleDelete"
+                                    visible="{oViewModel>/edit}"/>
+                            </actions>
+                        </ObjectPageHeader>
+                    </headerTitle>
+                    
+                    <!-- footer section -->
+                    <footer>
+                        <m:OverflowToolbar>
+                            <m:ToolbarSpacer/>
+                            <m:Button text="Save" type="Emphasized" press=".handleSave"/>
+                            <m:Button text="Cancel" press=".handleCancel"/>
+                        </m:OverflowToolbar>
+                    </footer>
+	            </ObjectPageLayout>
+			</m:pages>
+		</m:App>
+	</m:Shell> 
+
+</mvc:View>

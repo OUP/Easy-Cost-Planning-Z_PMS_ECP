@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:Reference Uri="https://s4dbasdev130:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://s4dbasdev130:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://s4dbasdev130:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://s4dbasdev130:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="Aggregation"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://s4dbasdev130:443/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+    </edmx:Reference>
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="cds_zpms_sd_ui_mfg_proj_o2" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="ZPMS_C_MFG_PROJType" sap:label="CDS view for OUP Manufacturing Projects" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="matnr"/>
+                    <PropertyRef Name="pspid"/>
+                    <PropertyRef Name="ean11"/>
+                    <PropertyRef Name="prart"/>
+                    <PropertyRef Name="posid"/>
+                </Key>
+                <Property Name="matnr" Type="Edm.String" Nullable="false" MaxLength="18" sap:display-format="UpperCase" sap:label="Material" sap:quickinfo="Material Number"/>
+                <Property Name="pspid" Type="Edm.String" Nullable="false" MaxLength="24"/>
+                <Property Name="ean11" Type="Edm.String" Nullable="false" MaxLength="18" sap:display-format="UpperCase" sap:label="EAN/UPC" sap:quickinfo="International Article Number (EAN/UPC)"/>
+                <Property Name="prart" Type="Edm.String" Nullable="false" MaxLength="2" sap:display-format="UpperCase" sap:label="Proj.type" sap:quickinfo="Project type"/>
+                <Property Name="posid" Type="Edm.String" Nullable="false" MaxLength="24"/>
+                <Property Name="banfn" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Purchase Requisition" sap:quickinfo="Purchase Requisition Number"/>
+                <Property Name="pur_rfq" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Req for Quotation"/>
+                <Property Name="pur_ord" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Purchasing Document" sap:quickinfo="Purchasing Document Number"/>
+                <Property Name="maktg" Type="Edm.String" MaxLength="40" sap:display-format="UpperCase" sap:label="Material description" sap:quickinfo="Material Description in Uppercase for Matchcodes"/>
+                <Property Name="zz_role_layout" Type="Edm.String" MaxLength="10" sap:label="Role layout"/>
+                <Property Name="zz_cost_layout" Type="Edm.String" MaxLength="10" sap:label="Cost layout"/>
+                <Property Name="zz_spec_layout" Type="Edm.String" MaxLength="10" sap:label="Specification Layout"/>
+                <Property Name="zz_qty_pub1" Type="Edm.Decimal" Precision="7" Scale="0" sap:label="Proceed Quantity"/>
+                <Property Name="zz_format" Type="Edm.String" MaxLength="9" sap:display-format="UpperCase" sap:label="Format"/>
+                <Property Name="zz_extent" Type="Edm.Decimal" Precision="4" Scale="0" sap:label="Total Extent"/>
+                <Property Name="zz_cover_print" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Cover Print"/>
+                <Property Name="zz_cover_board_weight" Type="Edm.Decimal" Precision="6" Scale="2" sap:label="Cover Board Weight"/>
+                <Property Name="zz_text_colours" Type="Edm.String" MaxLength="25" sap:display-format="UpperCase" sap:label="Text Colours"/>
+                <Property Name="zz_cover_colours" Type="Edm.String" MaxLength="25" sap:display-format="UpperCase" sap:label="Cover Colours"/>
+                <Property Name="zz_board" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Cover Board"/>
+                <Property Name="zz_finish" Type="Edm.String" MaxLength="18" sap:display-format="UpperCase" sap:label="Finish"/>
+                <Property Name="zz_binding" Type="Edm.String" MaxLength="18" sap:display-format="UpperCase" sap:label="Binding"/>
+                <Property Name="zz_flm_pdf" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Film or PDF"/>
+                <Property Name="zz_litho_digi_printing" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Litho/Digital Print" sap:quickinfo="Litho/Digital Printing"/>
+                <Property Name="zz_weight" Type="Edm.Decimal" Precision="9" Scale="0" sap:label="Weight"/>
+                <Property Name="zz_related_isbn" Type="Edm.Decimal" Precision="13" Scale="0" sap:label="Related ISBN"/>
+                <Property Name="zz_packaging" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Packaging"/>
+                <Property Name="zz_extent0" Type="Edm.Decimal" Precision="4" Scale="0" sap:label="1st Part Extent"/>
+                <Property Name="zz_text_print" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Text Print"/>
+                <Property Name="zz_paper_weight_n" Type="Edm.Decimal" Precision="5" Scale="2" sap:label="Paper Weight"/>
+                <Property Name="zz_paper_brand_n" Type="Edm.String" MaxLength="15" sap:display-format="UpperCase" sap:label="Paper Brand"/>
+                <Property Name="zz_paper_type_n" Type="Edm.String" MaxLength="15" sap:display-format="UpperCase" sap:label="Paper Type"/>
+                <Property Name="zz_paper_grading" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Paper Grading"/>
+                <Property Name="zz_paper_mill" Type="Edm.String" MaxLength="20" sap:display-format="UpperCase" sap:label="Paper Mill"/>
+                <Property Name="zz_paper_mill_country" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Paper Mill Country"/>
+                <Property Name="zz_extent1" Type="Edm.Decimal" Precision="4" Scale="0" sap:label="2nd Part Extent"/>
+                <Property Name="zz_text_print_n" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="2nd Text Print"/>
+                <Property Name="zz_paper_weight_n2" Type="Edm.Decimal" Precision="5" Scale="2" sap:label="2nd Paper Weight"/>
+                <Property Name="zz_paper_brand_n2" Type="Edm.String" MaxLength="15" sap:display-format="UpperCase" sap:label="2nd Paper Brand"/>
+                <Property Name="zz_paper_type_n2" Type="Edm.String" MaxLength="15" sap:display-format="UpperCase" sap:label="2nd Paper Type"/>
+                <Property Name="zz_paper_grading_2" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="2nd Paper Grading"/>
+                <Property Name="zz_paper_mill_2" Type="Edm.String" MaxLength="20" sap:display-format="UpperCase" sap:label="2nd Paper Mill"/>
+                <Property Name="zz_paper_mill_country_2" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="2nd Paper Mill Count" sap:quickinfo="2nd Paper Mill Country"/>
+                <Property Name="zz_printer" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Printer"/>
+                <Property Name="zz_cvr_printer" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Cover Printer"/>
+                <Property Name="zz_binder" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Binder"/>
+                <Property Name="zz_paper_supp" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Paper Supplier"/>
+                <Property Name="zz_corrections_supplier" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Corrections Supplier"/>
+                <Property Name="zz_repro_n" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Repro"/>
+                <Property Name="zz_no_adv_copies_prod" Type="Edm.Decimal" Precision="3" Scale="0" sap:label="No. of Production Ad" sap:quickinfo="No. of Production Advances"/>
+                <Property Name="zz_additional_advances" Type="Edm.Decimal" Precision="3" Scale="0" sap:label="No. of Extra Advance" sap:quickinfo="No. of Extra Advances"/>
+                <Property Name="zz_publisher" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Head of Publishing"/>
+                <Property Name="zz_pub_mgr" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Publisher/Pub Manag" sap:quickinfo="Publisher/Pub Manager"/>
+                <Property Name="zz_editor" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Managing Editor"/>
+                <Property Name="zz_prod_edtr" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Production Editor"/>
+                <Property Name="zz_cont_edtr" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Content Editor"/>
+                <Property Name="zz_hd_des" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Design Manager"/>
+                <Property Name="zz_des_pm" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Design Project Manag" sap:quickinfo="Design Project Manager"/>
+                <Property Name="zz_designer" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Designer"/>
+                <Property Name="zz_illus_mgr" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Managing Art Editor"/>
+                <Property Name="zz_arteditor" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Art Editor"/>
+                <Property Name="zz_ppd" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Production Designer"/>
+                <Property Name="zz_des_cov" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Cover Designer"/>
+                <Property Name="zz_digi_cntrlr" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Audio Producer"/>
+                <Property Name="zz_digi_cntrlr2" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Video Producer"/>
+                <Property Name="zz_dig_lmng" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Digital Learning Man" sap:quickinfo="Digital Learning Manager"/>
+                <Property Name="zz_dig_dmng" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Digital Delivery Man" sap:quickinfo="Digital Delivery Manager"/>
+                <Property Name="zz_dig_pmng" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Digital Project Man" sap:quickinfo="Digital Project Manager"/>
+                <Property Name="zz_er_hkd" Type="Edm.Decimal" Precision="6" Scale="2" sap:label="HKD to GBP"/>
+                <Property Name="zz_er_usd" Type="Edm.Decimal" Precision="4" Scale="2" sap:label="USD to GBP"/>
+                <Property Name="zz_er_eur" Type="Edm.Decimal" Precision="4" Scale="2" sap:label="EUR to GBP"/>
+                <Property Name="zz_er_gbp" Type="Edm.Decimal" Precision="1" Scale="0" sap:label="GBP to GBP"/>
+                <Property Name="zz_qty" Type="Edm.Decimal" Precision="7" Scale="0" sap:label="Quantity 1"/>
+                <Property Name="zz_zmiv" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Printing Cost T ZMIV" sap:quickinfo="Printing Cost (Total) ZMIV"/>
+                <Property Name="zz_zmivu" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Printing Cost U ZMIV" sap:quickinfo="Printing Cost (Unit) ZMIV"/>
+                <Property Name="zz_zmiv_curr" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZMIV Currency"/>
+                <Property Name="zz_zcr" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Cou/AirfrghtCost ZCR" sap:quickinfo="Courier/Airfreight Cost (Total) ZCR"/>
+                <Property Name="zz_zcru" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Cou/AirfrghtCt U ZCR" sap:quickinfo="Courier/Airfreight Cost (Unit) ZCR"/>
+                <Property Name="zz_zcr_curr" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZCR Currency"/>
+                <Property Name="zz_zhk" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Hkg Frght Cost T ZHK" sap:quickinfo="Hong Kong Freight Cost (Total) ZHK"/>
+                <Property Name="zz_zhku" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Hkg Frght Cost U ZHK" sap:quickinfo="Hong Kong Freight Cost (Unit) ZHK"/>
+                <Property Name="zz_zhk_curr" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZHK Currency"/>
+                <Property Name="zz_zefr" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Non-HK Fr CostT ZEFR" sap:quickinfo="Non-HK Freight Cost (Total) ZEFR"/>
+                <Property Name="zz_zefru" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Non-HK Fr CostU ZEFR" sap:quickinfo="Non-HK Freight Cost (Unit) ZEFR"/>
+                <Property Name="zz_zefr_curr" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZEFR Currency"/>
+                <Property Name="zz_zbn" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="BindBooks Cost T ZBN" sap:quickinfo="Binding - Books Cost (Total) ZBN"/>
+                <Property Name="zz_zbnu" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="BindBooks Cost U ZBN" sap:quickinfo="Binding - Books Cost (Unit) ZBN"/>
+                <Property Name="zz_zbn_curr" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZBN Currency"/>
+                <Property Name="zz_zcv" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Cov/Jacket CostT ZCV" sap:quickinfo="Cover/Jacket Cost (Total) ZCV"/>
+                <Property Name="zz_zcvu" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Cov/Jacket CostU ZCV" sap:quickinfo="Cover/Jacket Cost (Unit) ZCV"/>
+                <Property Name="zz_zcv_curr" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZCV Currency"/>
+                <Property Name="zz_zot" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Oth Costs T ZOT" sap:quickinfo="Other Costs (Total) ZOT"/>
+                <Property Name="zz_zotu" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Oth Costs U ZOT" sap:quickinfo="Other Costs (Unit) ZOT"/>
+                <Property Name="zz_zot_curr" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZOT Currency"/>
+                <Property Name="zz_zpk" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Bind Pack Tot ZPK" sap:quickinfo="Binding Packing (Total) ZPK"/>
+                <Property Name="zz_zpku" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Bind Pack Unit ZPK" sap:quickinfo="Binding Packing (Unit) ZPK"/>
+                <Property Name="zz_zpk_curr" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZPK Currency"/>
+                <Property Name="zz_zzz" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Misc Costs Total ZZZ" sap:quickinfo="Miscellaneous Costs (Total) ZZZ"/>
+                <Property Name="zz_zzzu" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Misc Costs Unit ZZZ" sap:quickinfo="Miscellaneous Costs (Unit) ZZZ"/>
+                <Property Name="zz_zzzz_curr" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZZZ Currency"/>
+                <Property Name="zz_ztp" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="TextPaper Cost T ZTP" sap:quickinfo="Text Paper Cost (Total) ZTP"/>
+                <Property Name="zz_ztpu" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="TextPaper Cost U ZTP" sap:quickinfo="Text Paper Cost (Unit) ZTP"/>
+                <Property Name="zz_ztp_curr" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZTP Currency"/>
+                <Property Name="zz_znot" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Corr Cost Total ZNOT" sap:quickinfo="Correction Costs (Total) ZNOT"/>
+                <Property Name="zz_znotu" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Corr Cost Unit ZNOT" sap:quickinfo="Correction Costs (Unit) ZNOT"/>
+                <Property Name="zz_znot_curr" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZNOT Currency"/>
+                <Property Name="zz_tot_cost1" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Total Cost 1"/>
+                <Property Name="zz_tot_curr1" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="TOT Currency"/>
+                <Property Name="zz_un_cst1" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Unit (avg.) Cost 1" sap:quickinfo="Unit (average) Cost 1"/>
+                <Property Name="zz_un_curr" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="UN Currency"/>
+                <Property Name="zz_qty2" Type="Edm.Decimal" Precision="7" Scale="0" sap:label="Quantity 2"/>
+                <Property Name="zz_zmiv_2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Print Cost2 Tot ZMIV" sap:quickinfo="Printing Cost 2 (Total) ZMIV"/>
+                <Property Name="zz_zmivu_2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="PrintCost2 Unit ZMIV" sap:quickinfo="Printing Cost 2 (Unit) ZMIV"/>
+                <Property Name="zz_zmiv_curr2" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZMIV Currency2"/>
+                <Property Name="zz_zcr_2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Cou/AirfCost Tot ZCR" sap:quickinfo="Courier/Airfreight Cost (Total) ZCR"/>
+                <Property Name="zz_zcru_2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Cou/AirfCost Uni ZCR" sap:quickinfo="Courier/Airfreight Cost (Unit) ZCR"/>
+                <Property Name="zz_zcr_curr2" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZCR Currency"/>
+                <Property Name="zz_zhk_2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="HK FrghtCost Tot ZHK" sap:quickinfo="Hong Kong Freight Cost (Total) ZHK"/>
+                <Property Name="zz_zhku_2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="HKFrghtCostUnit2 ZHK" sap:quickinfo="Hong Kong Freight Cost (Unit 2) ZHK"/>
+                <Property Name="zz_zhk_curr2" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZHK Currency"/>
+                <Property Name="zz_zefr_2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="NHK FrghtCost T ZEFR" sap:quickinfo="Non-HK Freight Cost (Total) ZEFR"/>
+                <Property Name="zz_zefru_2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="NHK FrghtCost U ZEFR" sap:quickinfo="Non-HK Freight Cost (Unit) ZEFR"/>
+                <Property Name="zz_zefr_curr2" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZEFR Currency2"/>
+                <Property Name="zz_zbn_2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Bind BookCost T2 ZBN" sap:quickinfo="Binding - Books Cost (Total 2) ZBN"/>
+                <Property Name="zz_zbnu_2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="BindBook Cost U2 ZBN" sap:quickinfo="Binding - Books Cost (Unit 2) ZBN"/>
+                <Property Name="zz_zbn_curr2" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZBN Currency2"/>
+                <Property Name="zz_zcv_2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Cov/Jac Cost T2 ZCV" sap:quickinfo="Cover/Jacket Cost (Total 2) ZCV"/>
+                <Property Name="zz_zcvu_2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Cov/Jac Cost U2 ZCV" sap:quickinfo="Cover/Jacket Cost (Unit 2) ZCV"/>
+                <Property Name="zz_zcv_curr2" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZCV Currency2"/>
+                <Property Name="zz_zot_2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Oth Costs Total2 ZOT" sap:quickinfo="Other Costs (Total 2) ZOT"/>
+                <Property Name="zz_zotu_2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Oth Costs Unit 2 ZOT" sap:quickinfo="Other Costs (Unit 2) ZOT"/>
+                <Property Name="zz_zot_curr2" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZOT Currency2"/>
+                <Property Name="zz_zpk_2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="BindPacking Tot2 ZPK" sap:quickinfo="Binding Packing (Total 2) ZPK"/>
+                <Property Name="zz_zpku_2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="BindPcking Unit2 ZPK" sap:quickinfo="Binding Packing (Unit 2) ZPK"/>
+                <Property Name="zz_zpk_curr2" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZPK Currency2"/>
+                <Property Name="zz_zzzz_2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Misc Cost Tot2 ZZZ" sap:quickinfo="Miscellaneous Costs (Total 2) ZZZ"/>
+                <Property Name="zz_zzzu_2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Misc Cost Unit 2 ZZZ" sap:quickinfo="Miscellaneous Costs (Unit 2) ZZZ"/>
+                <Property Name="zz_zzzz_curr2" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZZZ Currency2"/>
+                <Property Name="zz_ztp_2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="TxtPapCost Tot 2 ZTP" sap:quickinfo="Text Paper Cost (Total 2) ZTP"/>
+                <Property Name="zz_ztpu_2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="TxtPapCost Unit2 ZTP" sap:quickinfo="Text Paper Cost (Unit 2) ZTP"/>
+                <Property Name="zz_ztp_curr2" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZTP Currency2"/>
+                <Property Name="zz_znot_2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="CorCosts Total2 ZNOT" sap:quickinfo="Correction Costs (Total 2) ZNOT"/>
+                <Property Name="zz_znotu_2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="CorCosts Unit 2 ZNOT" sap:quickinfo="Correction Costs (Unit 2) ZNOT"/>
+                <Property Name="zz_znot_curr2" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZNOT Currency2"/>
+                <Property Name="zz_tot_cost2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Total Cost 2"/>
+                <Property Name="zz_tot_curr2" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="TOT Currency2"/>
+                <Property Name="zz_un_cst2" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Unit (avg) cost 2" sap:quickinfo="Unit (average) cost 2"/>
+                <Property Name="zz_un_curr2" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Unit Avg Currency 2"/>
+                <Property Name="zz_qty3" Type="Edm.Decimal" Precision="7" Scale="0" sap:label="Quantity 3"/>
+                <Property Name="zz_zmiv_3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Print Cost3 Tot ZMIV" sap:quickinfo="Printing Cost 3 (Total) ZMIV"/>
+                <Property Name="zz_zmivu_3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="PrintCost3 Unit ZMIV" sap:quickinfo="Printing Cost 3 (Unit) ZMIV"/>
+                <Property Name="zz_zmiv_curr3" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZMIV Currency3"/>
+                <Property Name="zz_zcr_3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Cou/AirfCost Tot ZCR" sap:quickinfo="Courier/Airfreight Cost (Total) ZCR"/>
+                <Property Name="zz_zcru_3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Cou/AirfCost Uni ZCR" sap:quickinfo="Courier/Airfreight Cost (Unit) ZCR"/>
+                <Property Name="zz_zcr_curr3" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZCR Currency"/>
+                <Property Name="zz_zhk_3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="HK FrghtCost Tot ZHK" sap:quickinfo="Hong Kong Freight Cost (Total) ZHK"/>
+                <Property Name="zz_zhku_3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="HKFrghtCostUnit3 ZHK" sap:quickinfo="Hong Kong Freight Cost (Unit 3) ZHK"/>
+                <Property Name="zz_zhk_curr3" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZHK Currency3"/>
+                <Property Name="zz_zefr_3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="NHK FrghtCost T ZEFR" sap:quickinfo="Non-HK Freight Cost (Total) ZEFR"/>
+                <Property Name="zz_zefru_3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="NHK FrghtCost U ZEFR" sap:quickinfo="Non-HK Freight Cost (Unit) ZEFR"/>
+                <Property Name="zz_zefr_curr3" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZEFR Currency3"/>
+                <Property Name="zz_zbn_3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Bind BookCost T3 ZBN" sap:quickinfo="Binding - Books Cost (Total 3) ZBN"/>
+                <Property Name="zz_zbnu_3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="BindBook Cost U3 ZBN" sap:quickinfo="Binding - Books Cost (Unit 3) ZBN"/>
+                <Property Name="zz_zbn_curr3" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZBN Currency3"/>
+                <Property Name="zz_zcv_3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Cov/Jac Cost T3 ZCV" sap:quickinfo="Cover/Jacket Cost (Total 3) ZCV"/>
+                <Property Name="zz_zcvu_3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Cov/Jac Cost U3 ZCV" sap:quickinfo="Cover/Jacket Cost (Unit 3) ZCV"/>
+                <Property Name="zz_zcv_curr3" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZCV Currency3"/>
+                <Property Name="zz_zot_3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Oth Costs Total3 ZOT" sap:quickinfo="Other Costs (Total 3) ZOT"/>
+                <Property Name="zz_zotu_3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Oth Costs Unit 3 ZOT" sap:quickinfo="Other Costs (Unit 3) ZOT"/>
+                <Property Name="zz_zot_curr3" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZOT Currency3"/>
+                <Property Name="zz_zpk_3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="BindPacking Tot3 ZPK" sap:quickinfo="Binding Packing (Total 3) ZPK"/>
+                <Property Name="zz_zpku_3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="BindPcking Unit3 ZPK" sap:quickinfo="Binding Packing (Unit 3) ZPK"/>
+                <Property Name="zz_zpk_curr3" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZPK Currency3"/>
+                <Property Name="zz_zzzz_3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Misc Cost Tot3 ZZZ" sap:quickinfo="Miscellaneous Costs (Total 3) ZZZ"/>
+                <Property Name="zz_zzzu_3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Misc Cost Unit 3 ZZZ" sap:quickinfo="Miscellaneous Costs (Unit 3) ZZZ"/>
+                <Property Name="zz_zzzz_curr3" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZZZ Currency3"/>
+                <Property Name="zz_ztp_3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="TxtPapCost Tot 3 ZTP" sap:quickinfo="Text Paper Cost (Total 3) ZTP"/>
+                <Property Name="zz_ztpu_3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="TxtPapCost Unit3 ZTP" sap:quickinfo="Text Paper Cost (Unit 3) ZTP"/>
+                <Property Name="zz_ztp_curr3" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZTP Currency3"/>
+                <Property Name="zz_znot_3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="CorCosts Total3 ZNOT" sap:quickinfo="Correction Costs (Total 3) ZNOT"/>
+                <Property Name="zz_znotu_3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="CorCosts Unit 3 ZNOT" sap:quickinfo="Correction Costs (Unit 3) ZNOT"/>
+                <Property Name="zz_znot_curr3" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ZNOT Currency3"/>
+                <Property Name="zz_tot_cost3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Total Cost 3"/>
+                <Property Name="zz_tot_curr3" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="TOT Currency3"/>
+                <Property Name="zz_un_cst3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Unit (avg) cost 3" sap:quickinfo="Unit (average) cost 3"/>
+                <Property Name="zz_un_curr3" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Unit Avg Currency 3"/>
+                <Property Name="zz_pk_cst2" Type="Edm.Decimal" Precision="10" Scale="3" sap:label="Comp Unit Cost Sum" sap:quickinfo="Components Unit Costs Sum"/>
+                <Property Name="zz_weight_m" Type="Edm.Decimal" Precision="5" Scale="0" sap:label="Weight(manual entry)" sap:quickinfo="Weight (manual entry)"/>
+                <Property Name="zz_no_of_components" Type="Edm.Decimal" Precision="3" Scale="0" sap:label="Number of Components"/>
+                <Property Name="zz_pack_size_n" Type="Edm.String" MaxLength="10" sap:label="Pack Size"/>
+                <Property Name="zz_pub_group" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Publishing Group"/>
+                <Property Name="zz_spu" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="SPU"/>
+                <Property Name="zz_on_body_print_n" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="On-Body Print"/>
+                <Property Name="zz_component_type" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Component Type"/>
+                <Property Name="zz_platform" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Platform"/>
+                <Property Name="zz_reversion" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Reversion"/>
+                <Property Name="zz_rag_status" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="RAG Status"/>
+                <Property Name="zz_dvd_comptyp" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="DVD Component Type"/>
+                <Property Name="zz_printer_1" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="1st Vendor (Digital)"/>
+                <Property Name="zz_printer_2" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="2nd Vendor (Digital)"/>
+                <Property Name="zz_printer_3" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="3rd Vendor (Digital)"/>
+                <Property Name="zz_printer_4" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="4th Vendor (Digital)"/>
+                <Property Name="zz_printer_5" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="5th Vendor (Digital)"/>
+                <Property Name="zz_complexity" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Complexity"/>
+                <Property Name="zz_sup_1" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Freelancer/Supplier1" sap:quickinfo="Freelancer/Supplier 1"/>
+                <Property Name="zz_sup_2" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Freelancer/Supplier2" sap:quickinfo="Freelancer/Supplier 2"/>
+                <Property Name="zz_sup_3" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Freelancer/Supplier3" sap:quickinfo="Freelancer/Supplier 3"/>
+                <Property Name="zz_sup_4" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Freelancer/Supplier4" sap:quickinfo="Freelancer/Supplier 4"/>
+                <Property Name="zz_sup_5" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Freelancer/Supplier5" sap:quickinfo="Freelancer/Supplier 5"/>
+                <Property Name="zz_mk_prntr" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Main Supplier"/>
+                <Property Name="zz_mk_bndr" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Other Supplier"/>
+                <Property Name="zz_mk_qty" Type="Edm.Decimal" Precision="10" Scale="0" sap:label="Confirmed Quantity"/>
+                <Property Name="zz_no_imprints" Type="Edm.Decimal" Precision="3" Scale="0" sap:label="No. of Imprints"/>
+                <Property Name="zz_mk_arch" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Archive Files?"/>
+                <Property Name="zz_mk_dloc" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Delivery Location"/>
+                <Property Name="zz_mk_shpm" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Shipment Month"/>
+                <Property Name="zz_acccode" Type="Edm.Decimal" Precision="7" Scale="0" sap:label="Account Code"/>
+                <Property Name="zz_cc" Type="Edm.String" MaxLength="10" sap:label="Cost Centre"/>
+                <Property Name="zz_mk_stkqty" Type="Edm.Decimal" Precision="7" Scale="0" sap:label="Tot No. of Stickers" sap:quickinfo="Total Number of Stickers"/>
+                <Property Name="zz_mk_stksas" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Stickers Supplied as" sap:quickinfo="Stickers Supplied as:"/>
+                <Property Name="zz_mk_stknos" Type="Edm.Decimal" Precision="7" Scale="0" sap:label="Number of Sheets"/>
+                <Property Name="zz_mk_stktxt" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Sticker Text Print"/>
+                <Property Name="zz_mk_stkpel" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Peelable?"/>
+                <Property Name="zz_mk_stkfin" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Sticker Finish"/>
+                <Property Name="zz_mk_pstnum" Type="Edm.Decimal" Precision="7" Scale="0" sap:label="Total No. of Posters" sap:quickinfo="Total Number of Posters"/>
+                <Property Name="zz_mk_st1nop" Type="Edm.Decimal" Precision="7" Scale="0" sap:label="Number of Posters 1"/>
+                <Property Name="zz_mk_st1txt" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Poster Text Print 1"/>
+                <Property Name="zz_mk_st1pfn" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Poster Finish 1"/>
+                <Property Name="zz_mk_st2nop" Type="Edm.Decimal" Precision="7" Scale="0" sap:label="Number of Posters 2"/>
+                <Property Name="zz_mk_st2txt" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Poster Text Print 2"/>
+                <Property Name="zz_mk_st2pfn" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Poster Finish 2"/>
+                <Property Name="zz_mk_st3nop" Type="Edm.Decimal" Precision="7" Scale="0" sap:label="Number of Posters 3"/>
+                <Property Name="zz_mk_st3txt" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Poster Text Print 3"/>
+                <Property Name="zz_mk_st3pfn" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Poster Finish 3"/>
+                <Property Name="zz_mk_bmnod" Type="Edm.Decimal" Precision="3" Scale="0" sap:label="No. of Designs"/>
+                <Property Name="zz_mk_bmtno" Type="Edm.Decimal" Precision="7" Scale="0" sap:label="Total No. of Bookmar" sap:quickinfo="Total Number of Bookmarks"/>
+                <Property Name="zz_mk_bmnpp" Type="Edm.Decimal" Precision="5" Scale="0" sap:label="No. Bookmarks PerPac" sap:quickinfo="Number of Bookmarks per Pack"/>
+                <Property Name="zz_mk_dscsyp" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Disc Type"/>
+                <Property Name="zz_mk_dscovw" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Disc Overwrap"/>
+                <Property Name="zz_endpaper_paper" Type="Edm.String" MaxLength="70" sap:label="Paper for Endpaper"/>
+                <Property Name="zz_endpaper_print" Type="Edm.String" MaxLength="70" sap:label="Print for Endpaper"/>
+                <Property Name="zz_extra_advances_to_1" Type="Edm.String" MaxLength="50" sap:display-format="UpperCase" sap:label="ExtraAdvancesToName" sap:quickinfo="Extra Advances to Name"/>
+                <Property Name="zz_extra_advances_to_2" Type="Edm.String" MaxLength="70" sap:display-format="UpperCase" sap:label="ExtraAdvancesToComp" sap:quickinfo="Extra Advances to Company"/>
+                <Property Name="zz_extra_advances_to_3" Type="Edm.String" MaxLength="70" sap:display-format="UpperCase" sap:label="Extra Advances to Ad" sap:quickinfo="Extra Advances to Address"/>
+                <Property Name="zz_additional_adv_to" Type="Edm.String" MaxLength="70" sap:label="AddtionalAdvancesTo" sap:quickinfo="Addtional Advances to"/>
+                <Property Name="zz_additional_adv_to_2" Type="Edm.String" MaxLength="70" sap:label="AddtionalAdvancesTo2" sap:quickinfo="Addtional Advances to 2"/>
+                <Property Name="zz_txt_print_sp_instructions" Type="Edm.String" MaxLength="70" sap:label="Spcl Inst for Print" sap:quickinfo="Special Instructions for Print"/>
+                <Property Name="zz_txt_cover_sp_instructions" Type="Edm.String" MaxLength="70" sap:label="Spcl Inst for Cover" sap:quickinfo="Special Instructions for Cover"/>
+                <Property Name="zz_txt_binding_sp_instructions" Type="Edm.String" MaxLength="70" sap:label="Spcl Inst for Bindng" sap:quickinfo="Special Instructions for Binding"/>
+                <Property Name="zz_plzz_sp1" Type="Edm.String" MaxLength="70" sap:label="Plotter Proofs"/>
+                <Property Name="zz_plzz_sp2" Type="Edm.String" MaxLength="70" sap:label="GMG Proofs"/>
+                <Property Name="zz_plzz_sp3" Type="Edm.String" MaxLength="70" sap:label="Plotter Proofs(MP)" sap:quickinfo="Plotter Proofs (Marked Pages)"/>
+                <Property Name="zz_txt_product_details_specs" Type="Edm.String" MaxLength="70" sap:label="Specif/Prod Details" sap:quickinfo="Specifications/Product Details"/>
+                <Property Name="zz_txt_collation_order" Type="Edm.String" MaxLength="70" sap:label="Collation Order"/>
+                <Property Name="zz_txt_for_pack" Type="Edm.String" MaxLength="70" sap:label="For Pack"/>
+                <Property Name="zz_txt_product_details_specs2" Type="Edm.String" MaxLength="70" sap:label="Spcs/Prod.Details L2" sap:quickinfo="Specs/Prod.Details Line 2"/>
+                <Property Name="zz_txt_product_details_specs3" Type="Edm.String" MaxLength="70" sap:label="Spcs/Prod.Details L3" sap:quickinfo="Specs/Prod.Details Line 3"/>
+                <Property Name="zz_txt_product_details_specs4" Type="Edm.String" MaxLength="70" sap:label="Spcs/Prod.Details L4" sap:quickinfo="Specs/Prod.Details Line 4"/>
+                <Property Name="zz_txt_product_details_specs5" Type="Edm.String" MaxLength="70" sap:label="Spcs/Prod.Details L5" sap:quickinfo="Specs/Prod.Details Line 5"/>
+                <Property Name="zz_txt_product_details_specs6" Type="Edm.String" MaxLength="70" sap:label="Spcs/Prod.Details L6" sap:quickinfo="Specs/Prod.Details Line 6"/>
+                <Property Name="zz_txt_product_details_specs7" Type="Edm.String" MaxLength="70" sap:label="Spcs/Prod.Details L7" sap:quickinfo="Specs/Prod.Details Line 7"/>
+                <Property Name="zz_txt_product_details_specs8" Type="Edm.String" MaxLength="70" sap:label="Spcs/Prod.Details L8" sap:quickinfo="Specs/Prod.Details Line 8"/>
+                <Property Name="zz_txt_product_details_specs9" Type="Edm.String" MaxLength="70" sap:label="Spcs/Prod.Details L9" sap:quickinfo="Specs/Prod.Details Line 9"/>
+                <Property Name="zz_txt_product_details_specs10" Type="Edm.String" MaxLength="70" sap:label="Spcs/Prod.DetailsL10" sap:quickinfo="Specs/Prod.Details Line 10"/>
+                <Property Name="zz_tst_info" Type="Edm.String" MaxLength="70" sap:label="Testing Information"/>
+                <Property Name="zz_txt_package_instructions" Type="Edm.String" MaxLength="70" sap:label="Packg Ins Line 1" sap:quickinfo="Packaging Instructions Line 1"/>
+                <Property Name="zz_txt_package_instructions2" Type="Edm.String" MaxLength="70" sap:label="Packg Ins Line 2" sap:quickinfo="Packaging Instructions Line 2"/>
+                <Property Name="zz_txt_package_instructions3" Type="Edm.String" MaxLength="70" sap:label="Packg Ins Line 3" sap:quickinfo="Packaging Instructions Line 3"/>
+                <Property Name="zz_txt_package_instructions4" Type="Edm.String" MaxLength="70" sap:label="Packg Ins Line 4" sap:quickinfo="Packaging Instructions Line 4"/>
+                <Property Name="zz_txt_package_instructions5" Type="Edm.String" MaxLength="70" sap:label="Packg Ins Line 5" sap:quickinfo="Packaging Instructions Line 5"/>
+                <Property Name="zz_txt_package_instructions6" Type="Edm.String" MaxLength="70" sap:label="Packg Ins Line 6" sap:quickinfo="Packaging Instructions Line 6"/>
+                <Property Name="zz_txt_package_instructions7" Type="Edm.String" MaxLength="70" sap:label="Packg Ins Line 7" sap:quickinfo="Packaging Instructions Line 7"/>
+                <Property Name="zz_txt_package_instructions8" Type="Edm.String" MaxLength="70" sap:label="Packg Ins Line 8" sap:quickinfo="Packaging Instructions Line 8"/>
+                <Property Name="zz_txt_package_instructions9" Type="Edm.String" MaxLength="70" sap:label="Packg Ins Line 9" sap:quickinfo="Packaging Instructions Line 9"/>
+                <Property Name="zz_txt_package_instructions10" Type="Edm.String" MaxLength="70" sap:label="Packg Ins Line 10" sap:quickinfo="Packaging Instructions Line 10"/>
+                <Property Name="zz_no_of_discs" Type="Edm.String" MaxLength="70" sap:label="Number of Discs"/>
+                <Property Name="zz_printed_parts" Type="Edm.String" MaxLength="70" sap:display-format="UpperCase" sap:label="Printed Parts"/>
+                <Property Name="zz_on_body_colour_n" Type="Edm.String" MaxLength="70" sap:label="On-Body Colours"/>
+                <Property Name="zz_printed_parts_colour" Type="Edm.String" MaxLength="70" sap:label="Printed Parts Colour" sap:quickinfo="Printed Parts Colours"/>
+                <Property Name="zz_printed_parts_paper" Type="Edm.String" MaxLength="70" sap:label="Printed Parts Paper"/>
+                <Property Name="zz_txt_delivery_details" Type="Edm.String" MaxLength="70" sap:label="Txt for Delivery Det" sap:quickinfo="Text for Delivery Details"/>
+                <Property Name="zz_master_num_1" Type="Edm.String" MaxLength="70" sap:label="Master Number 1"/>
+                <Property Name="zz_master_num_2" Type="Edm.String" MaxLength="70" sap:label="Master Number 2"/>
+                <Property Name="zz_master_num_3" Type="Edm.String" MaxLength="70" sap:label="Master Number 3"/>
+                <Property Name="zz_duration" Type="Edm.String" MaxLength="70" sap:label="Disc Duration"/>
+                <Property Name="zz_txt_kpi_comments" Type="Edm.String" MaxLength="70" sap:label="KPI Tracker Comments"/>
+                <Property Name="zz_disk_packaging" Type="Edm.String" MaxLength="70" sap:display-format="UpperCase" sap:label="Disc Packaging"/>
+                <Property Name="zz_test_codes_info" Type="Edm.String" MaxLength="70" sap:label="Test/Codes Info" sap:quickinfo="Test/Codes Information"/>
+                <Property Name="zz_learn_ob" Type="Edm.String" MaxLength="70" sap:label="No. Learning Objects"/>
+                <Property Name="zz_screen" Type="Edm.String" MaxLength="70" sap:label="No. Screens"/>
+                <Property Name="zz_ass_aud" Type="Edm.String" MaxLength="70" sap:label="No. Audio Assets"/>
+                <Property Name="zz_ass_im" Type="Edm.String" MaxLength="70" sap:label="No. Image Assets"/>
+                <Property Name="zz_ass_vid" Type="Edm.String" MaxLength="70" sap:label="No. Video Assets"/>
+                <Property Name="zz_ass_pdf" Type="Edm.String" MaxLength="70" sap:label="No. PDF Assets"/>
+                <Property Name="zz_con_de" Type="Edm.String" MaxLength="70" sap:label="Content Derivation"/>
+                <Property Name="zz_cont_coms" Type="Edm.String" MaxLength="70" sap:label="Content Versioning C" sap:quickinfo="Content Versioning Comments"/>
+                <Property Name="zz_anum_01" Type="Edm.String" MaxLength="70" sap:label="A-NUMBERS Comments 1"/>
+                <Property Name="zz_anum_02" Type="Edm.String" MaxLength="70" sap:label="A-NUMBERS Comments 2"/>
+                <Property Name="zz_anum_03" Type="Edm.String" MaxLength="70" sap:label="A-NUMBERS Comments 3"/>
+                <Property Name="zz_anum_04" Type="Edm.String" MaxLength="70" sap:label="A-NUMBERS Comments 4"/>
+                <Property Name="zz_anum_05" Type="Edm.String" MaxLength="70" sap:label="A-NUMBERS Comments 5"/>
+                <Property Name="zz_anum_06" Type="Edm.String" MaxLength="70" sap:label="A-NUMBERS Comments 6"/>
+                <Property Name="zz_mk_prun" Type="Edm.String" MaxLength="70" sap:label="Quantity for Estimat" sap:quickinfo="Quantity for Estimate"/>
+                <Property Name="zz_sppkinfo" Type="Edm.String" MaxLength="70" sap:label="Special Packaging In" sap:quickinfo="Special Packaging Information"/>
+                <Property Name="zz_mk_spins" Type="Edm.String" MaxLength="70" sap:label="Special Instructions"/>
+                <Property Name="zz_imp_info" Type="Edm.String" MaxLength="70" sap:label="Imprint Information"/>
+                <Property Name="zz_mk_floc" Type="Edm.String" MaxLength="70" sap:label="File Location"/>
+                <Property Name="zz_mk_covbrd" Type="Edm.String" MaxLength="70" sap:label="Cover Board"/>
+                <Property Name="zz_mk_papwt" Type="Edm.String" MaxLength="70" sap:label="Paper Weight &amp; Type"/>
+                <Property Name="zz_mk_papbr" Type="Edm.String" MaxLength="70" sap:label="Paper Brand"/>
+                <Property Name="zz_mk_advc" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Advance Copies"/>
+                <Property Name="zz_mk_brdwt" Type="Edm.String" MaxLength="70" sap:label="Board Weight &amp; Type"/>
+                <Property Name="zz_mk_brdbr" Type="Edm.String" MaxLength="70" sap:label="Board Brand"/>
+                <Property Name="zz_board_supp" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Board Supplier"/>
+                <Property Name="zz_mk_stknps" Type="Edm.Decimal" Precision="5" Scale="0" sap:label="No.OfStickersPer S/R" sap:quickinfo="Number of Stickers per Sheet/Roll"/>
+                <Property Name="zz_mk_stkdim" Type="Edm.String" MaxLength="70" sap:label="Sticker Size"/>
+                <Property Name="zz_mk_stkcol" Type="Edm.String" MaxLength="70" sap:label="Sticker Colour"/>
+                <Property Name="zz_mk_st1fld" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Poster Fold 1"/>
+                <Property Name="zz_mk_st2fmt" Type="Edm.String" MaxLength="70" sap:label="Poster Format 2"/>
+                <Property Name="zz_mk_st2fld" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Poster Fold 2"/>
+                <Property Name="zz_mk_st3fmt" Type="Edm.String" MaxLength="70" sap:label="Poster Format 3"/>
+                <Property Name="zz_mk_st3fld" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Poster Fold 3"/>
+                <Property Name="zz_mk_bmpld" Type="Edm.String" MaxLength="70" sap:label="Pack Label Details"/>
+                <Property Name="zz_mk_fldstl" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Folder Style"/>
+                <Property Name="zz_mk_fldin1" Type="Edm.String" MaxLength="70" sap:label="Folder Inserts 1"/>
+                <Property Name="zz_mk_fldin2" Type="Edm.String" MaxLength="70" sap:label="Folder Inserts 2"/>
+                <Property Name="zz_mk_fldin3" Type="Edm.String" MaxLength="70" sap:label="Folder Inserts 3"/>
+                <Property Name="zz_mk_dscobp" Type="Edm.String" MaxLength="70" sap:label="Disc On-body Print"/>
+                <Property Name="zz_mk_dscpp" Type="Edm.String" MaxLength="70" sap:label="Disc Printed Parts"/>
+                <Property Name="zz_mk_dscpk1" Type="Edm.String" MaxLength="70" sap:label="Disc Packaging"/>
+                <Property Name="zz_mk_dscpk2" Type="Edm.String" MaxLength="70" sap:label="Disc Packaging 2"/>
+                <Property Name="zz_mk_dscpk3" Type="Edm.String" MaxLength="70" sap:label="Disc Packaging 3"/>
+                <Property Name="zz_mk_pkcd1" Type="Edm.String" MaxLength="70" sap:label="Pack Component Det 1" sap:quickinfo="Pack Component Details 1"/>
+                <Property Name="zz_mk_pkcd2" Type="Edm.String" MaxLength="70" sap:label="Pack Component Det 2" sap:quickinfo="Pack Component Details 2"/>
+                <Property Name="zz_mk_pkcd3" Type="Edm.String" MaxLength="70" sap:label="Pack Component Det 3" sap:quickinfo="Pack Component Details 3"/>
+                <Property Name="zz_mk_pkpd1" Type="Edm.String" MaxLength="70" sap:label="Packaging Details 1"/>
+                <Property Name="zz_mk_pkpd2" Type="Edm.String" MaxLength="70" sap:label="Packaging Details 2"/>
+                <Property Name="zz_mk_pkpd3" Type="Edm.String" MaxLength="70" sap:label="Packaging Details 3"/>
+                <Property Name="zz_mk_pklbl" Type="Edm.String" MaxLength="70" sap:label="Labelling Info"/>
+                <Property Name="zz_mk_spityp" Type="Edm.String" MaxLength="70" sap:label="Special Item Type"/>
+                <Property Name="zz_mk_spidsc" Type="Edm.String" MaxLength="70" sap:label="Special Item Descrip" sap:quickinfo="Special Item Description"/>
+                <Property Name="zz_mk_spids2" Type="Edm.String" MaxLength="70" sap:label="Special Item Desc 2" sap:quickinfo="Special Item Description 2"/>
+                <Property Name="zz_mk_spids3" Type="Edm.String" MaxLength="70" sap:label="Special Item Desc 3" sap:quickinfo="Special Item Description 3"/>
+                <Property Name="zz_mk_spids4" Type="Edm.String" MaxLength="70" sap:label="Special Item Desc 4" sap:quickinfo="Special Item Description 4"/>
+                <Property Name="zz_mk_spids5" Type="Edm.String" MaxLength="70" sap:label="Special Item Desc 5" sap:quickinfo="Special Item Description 5"/>
+                <Property Name="zz_mk_spids6" Type="Edm.String" MaxLength="70" sap:label="Special Item Desc 6" sap:quickinfo="Special Item Description 6"/>
+                <Property Name="zz_reascd" Type="Edm.String" MaxLength="50" sap:display-format="UpperCase" sap:label="Reason Codes"/>
+                <Property Name="zz_mk_frmt" Type="Edm.String" MaxLength="70" sap:label="Format"/>
+                <Property Name="zz_mk_st1fmt" Type="Edm.String" MaxLength="70" sap:label="Poster Format 1"/>
+                <Property Name="zz_qtyatc" Type="Edm.Decimal" Precision="7" Scale="0" sap:label="Actual Quantity"/>
+                <Property Name="zz_mk_zmiv3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Main Supplier Actual" sap:quickinfo="Main Supplier Actuals"/>
+                <Property Name="zz_mk_zmiv6" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="OtherSupplierActuals" sap:quickinfo="Other Supplier Actuals"/>
+                <Property Name="zz_mk_zzz3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Misc. Costs Actuals"/>
+                <Property Name="zz_mk_totcs3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Actual Total Cost"/>
+                <Property Name="zz_mk_unprc3" Type="Edm.Decimal" Precision="9" Scale="2" sap:label="Actual Unit Price"/>
+                <Property Name="zz_pkg_nt" Type="Edm.String" MaxLength="70" sap:label="Packaging Notes"/>
+                <Property Name="zz_pboard" Type="Edm.String" MaxLength="40" sap:label="Paper/Board"/>
+                <Property Name="zz_internal_spec" Type="Edm.String" MaxLength="70" sap:label="Non-output Speci" sap:quickinfo="Non-output Specification"/>
+                <Property Name="zz_dig_lic_period" Type="Edm.String" MaxLength="20" sap:display-format="UpperCase" sap:label="DigitalLicencePeriod" sap:quickinfo="Digital Licence Period"/>
+                <Property Name="zz_pk_cst_e2" Type="Edm.Decimal" Precision="10" Scale="3" sap:label="Comp Unit Cost Sum2" sap:quickinfo="Components Unit Costs Sum 2"/>
+                <Property Name="zz_pk_cst_e3" Type="Edm.Decimal" Precision="10" Scale="3" sap:label="Comp Unit Cost Sum3" sap:quickinfo="Components Unit Costs Sum 3"/>
+            </EntityType>
+            <EntityContainer Name="cds_zpms_sd_ui_mfg_proj_o2_Entities" m:IsDefaultEntityContainer="true" sap:message-scope-supported="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="ZPMS_C_MFG_PROJ" EntityType="cds_zpms_sd_ui_mfg_proj_o2.ZPMS_C_MFG_PROJType" sap:creatable="false" sap:deletable="false" sap:content-version="1"/>
+            </EntityContainer>
+            <Annotations Target="cds_zpms_sd_ui_mfg_proj_o2.cds_zpms_sd_ui_mfg_proj_o2_Entities" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Aggregation.ApplySupported">
+                    <Record>
+                        <PropertyValue Property="Transformations">
+                            <Collection>
+                                <String>aggregate</String>
+                                <String>groupby</String>
+                                <String>filter</String>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Rollup" EnumMember="None"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <atom:link rel="self" href="https://s4dbasdev130:443/sap/opu/odata/sap/ZPMS_SB_UI_MFG_PROJ_O2/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="https://s4dbasdev130:443/sap/opu/odata/sap/ZPMS_SB_UI_MFG_PROJ_O2/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
