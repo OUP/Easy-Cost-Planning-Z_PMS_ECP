@@ -29,7 +29,7 @@
                                 <m:Button 
                                     text="Delete"
                                     press=".handleDelete"
-                                    visible="{oViewModel>/edit}"/>
+                                    visible="false"/>
                             </actions>
                         </ObjectPageHeader>
                     </headerTitle>

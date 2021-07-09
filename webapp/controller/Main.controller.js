@@ -214,7 +214,7 @@ sap.ui.define(
         const oParameters = jQuery.sap.getUriParameters().mParams;
 
         _oView.bindElement({
-          path: `/ZPMS_C_MFG_PROJ(matnr=${oParameters.matnr},pspid=${oParameters.pspid},ean11=${oParameters.ean11},prart=${oParameters.prart},posid=${oParameters.posid})`,
+          path: `/ZPMS_C_MFG_PROJ(posid=${oParameters.posid})`,
           events: {
             dataRequested: () => {
               _oViewModel.setProperty("/busy", true);
@@ -240,10 +240,16 @@ sap.ui.define(
               // section three - zz_spec_layout
               const oPromise3 = this._loadConstants(oData.zz_spec_layout);
 
+              // section fout - notes
+              const oPromise4 = this._loadConstants("Notes");
+
               // close all three promise
-              Promise.all([oPromise1, oPromise2, oPromise3]).finally(() =>
-                _oViewModel.setProperty("/busy", false)
-              );
+              Promise.all([
+                oPromise1,
+                oPromise2,
+                oPromise3,
+                oPromise4,
+              ]).finally(() => _oViewModel.setProperty("/busy", false));
             },
           },
         });
@@ -542,8 +548,7 @@ sap.ui.define(
 
       _createSection: (sTitle) => {
         return new ObjectPageSection({
-          titleUppercase: false,
-          title: sTitle,
+          title: sTitle.toUpperCase(),
           showTitle: true,
         });
       },
