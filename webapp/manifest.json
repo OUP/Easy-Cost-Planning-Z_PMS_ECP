@@ -13,7 +13,7 @@
     "ach": "ach",
     "dataSources": {
       "mainService": {
-        "uri": "/sap/opu/odata/sap/ZPMS_SB_UI_MFG_PROJ_O2",
+        "uri": "/sap/opu/odata/sap/ZPMS_MFG_PROJ_SRV",
         "type": "OData",
         "settings": {
           "odataVersion": "2.0",

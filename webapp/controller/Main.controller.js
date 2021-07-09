@@ -214,7 +214,7 @@ sap.ui.define(
         const oParameters = jQuery.sap.getUriParameters().mParams;
 
         _oView.bindElement({
-          path: `/ZPMS_C_MFG_PROJ(posid=${oParameters.posid})`,
+          path: `/ZPMS_C_MFG_PROJ(matnr=${oParameters.matnr},pspid=${oParameters.pspid},ean11=${oParameters.ean11},prart=${oParameters.prart},posid=${oParameters.posid})`,
           events: {
             dataRequested: () => {
               _oViewModel.setProperty("/busy", true);
@@ -317,7 +317,7 @@ sap.ui.define(
                 oSmartForm.addGroup(oGroup);
               };
 
-              const fnEstimateLayout = (aEstimates, mGrouped, oSection) => {
+              const fnEstimateLayout = (mGrouped, oSection) => {
                 let index = 0;
 
                 while (index < 3) {
@@ -325,7 +325,6 @@ sap.ui.define(
 
                   // create sub section to section
                   const oSubSection = this._createSubSection(sEstimateNo);
-                  let aEstimate = aEstimates[index];
                   let estimateIndex = 0;
 
                   // 0: "Estimate 1"
@@ -475,9 +474,6 @@ sap.ui.define(
                 );
                 const aMappedGroupedKeys = mGrouped.keys();
                 let aGroupedKeys = [];
-                let aEstimateGroup1 = [];
-                let aEstimateGroup2 = [];
-                let aEstimateGroup3 = [];
 
                 // create an array
                 for (const obj of aMappedGroupedKeys) {
@@ -485,21 +481,6 @@ sap.ui.define(
                 }
 
                 if (sLayoutTitle.toUpperCase() === "COST LAYOUT") {
-                  // filter entries from estimate 1
-                  aEstimateGroup1 = aGroupedKeys.filter(
-                    (obj) => obj.split("|")[0].trim() === "Estimate 1"
-                  );
-
-                  // filter entries from estimate 2
-                  aEstimateGroup2 = aGroupedKeys.filter(
-                    (obj) => obj.split("|")[0].trim() === "Estimate 2"
-                  );
-
-                  // filter entries from estimate 3
-                  aEstimateGroup3 = aGroupedKeys.filter(
-                    (obj) => obj.split("|")[0].trim() === "Estimate 3"
-                  );
-
                   aGroupedKeys = aGroupedKeys.filter(
                     (obj) =>
                       obj.split("|")[0].trim() !== "Estimate 1" &&
@@ -529,7 +510,6 @@ sap.ui.define(
 
                 if (sLayoutTitle.toUpperCase() === "COST LAYOUT") {
                   fnEstimateLayout(
-                    [aEstimateGroup1, aEstimateGroup2, aEstimateGroup3],
                     mGrouped,
                     oSection
                   );
