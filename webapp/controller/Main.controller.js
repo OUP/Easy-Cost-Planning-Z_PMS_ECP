@@ -435,7 +435,9 @@ sap.ui.define(
                           });
 
                           oGridDom.removeClass("sapUiRespGridSpanL6");
+                          oGridDom.removeClass("sapUiRespGridSpanM6");
                           oGridDom.addClass("sapUiRespGridSpanL12");
+                          oGridDom.addClass("sapUiRespGridSpanM12");
                         } catch (error) {
                           // layout not changed
                         }
