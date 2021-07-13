@@ -511,10 +511,7 @@ sap.ui.define(
                 }
 
                 if (sLayoutTitle.toUpperCase() === "COST LAYOUT") {
-                  fnEstimateLayout(
-                    mGrouped,
-                    oSection
-                  );
+                  fnEstimateLayout(mGrouped, oSection);
                 }
 
                 // add section to object page layout
@@ -571,6 +568,10 @@ sap.ui.define(
         return new SmartField({
           value: `{${sBinding}}`,
           editable: bEditable,
+          textInEditModeSource: "ValueList",
+          configuration: {
+            displayBehaviour: "descriptionAndId",
+          },
         });
       },
 
