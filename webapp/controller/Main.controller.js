@@ -527,7 +527,7 @@ sap.ui.define(
 
       _createSection: (sTitle) => {
         return new ObjectPageSection({
-          title: sTitle.toUpperCase(),
+          title: sTitle.toUpperCase().split(" ")[0],
           showTitle: true,
         });
       },
