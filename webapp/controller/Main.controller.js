@@ -13,6 +13,7 @@ sap.ui.define(
     "sap/uxap/ObjectPageSection",
     "sap/uxap/ObjectPageSubSection",
     "sap/m/MessageBox",
+    "sap/m/TextArea",
   ],
   /**
    * @param {typeof sap.ui.core.mvc.Controller} Controller
@@ -30,7 +31,8 @@ sap.ui.define(
     FilterOperator,
     ObjectPageSection,
     ObjectPageSubSection,
-    MessageBox
+    MessageBox,
+    TextArea
   ) {
     "use strict";
 
@@ -564,15 +566,24 @@ sap.ui.define(
       },
 
       _createSmartField: (sBinding, bEditable) => {
-        // smart field
-        return new SmartField({
-          value: `{${sBinding}}`,
-          editable: bEditable,
-          textInEditModeSource: "ValueList",
-          configuration: {
-            displayBehaviour: "descriptionAndId",
-          },
-        });
+        if (sBinding === "notes") {
+          return new TextArea({
+            value: `{path: '${sBinding}',  mode: 'TwoWay'}`,
+            editable: "{oViewModel>/edit}",
+            growing: true,
+            growingMaxLines: 8,
+          });
+        } else {
+          // smart field
+          return new SmartField({
+            value: `{${sBinding}}`,
+            editable: bEditable,
+            textInEditModeSource: "ValueList",
+            configuration: {
+              displayBehaviour: "descriptionAndId",
+            },
+          });
+        }
       },
 
       /**
