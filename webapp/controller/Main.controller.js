@@ -14,6 +14,7 @@ sap.ui.define(
     "sap/uxap/ObjectPageSubSection",
     "sap/m/MessageBox",
     "sap/m/TextArea",
+    "sap/m/HBox",
   ],
   /**
    * @param {typeof sap.ui.core.mvc.Controller} Controller
@@ -32,7 +33,8 @@ sap.ui.define(
     ObjectPageSection,
     ObjectPageSubSection,
     MessageBox,
-    TextArea
+    TextArea,
+    HBox
   ) {
     "use strict";
 
@@ -49,15 +51,24 @@ sap.ui.define(
       /* =========================================================== */
 
       onInit: function () {
+        const oComponent = this.getOwnerComponent();
+        const oDataModel = oComponent.getModel();
+        const oConstDataModel = oComponent.getModel("constODataModel");
+        const fnChangeMetadataModel = (_) => oDataModel.setSizeLimit(500);
+        const fnChangeConstMetadataModel = (_) =>
+          oConstDataModel.setSizeLimit(500);
+
+        // increase the odata model size
+        oDataModel.metadataLoaded().then(fnChangeMetadataModel);
+        oConstDataModel.metadataLoaded().then(fnChangeConstMetadataModel);
+
         // initialize constants
         _oView = this.getView();
-        _oConstODataModel = this.getOwnerComponent().getModel(
-          "constODataModel"
-        );
+        _oConstODataModel = oComponent.getModel("constODataModel");
         _oObjectPageLayout = _oView.byId("object-page-layout-id");
 
         // apply content density mode to root view
-        _oView.addStyleClass(this.getOwnerComponent().getContentDensityClass());
+        _oView.addStyleClass(oComponent.getContentDensityClass());
 
         // size compact
         _bCompact = !!_oView.$().closest(".sapUiSizeCompact").length;
@@ -210,7 +221,7 @@ sap.ui.define(
         let supplierID;
 
         // get startup params from Owner Component
-        // const startupParams = this.getOwnerComponent().getComponentData()
+        // const startupParams = oComponent.getComponentData()
         //   .startupParameters;
 
         const oParameters = jQuery.sap.getUriParameters().mParams;
@@ -271,8 +282,15 @@ sap.ui.define(
             new Filter("layout_name", FilterOperator.Contains, sLayout),
           ];
 
+          // parameters
+          const urlParameters = {
+            $skip: 0,
+            $top: 500,
+          };
+
           // get layout data from constants
           _oConstODataModel.read("/ZPMS_C_MFG_PROJ_SCRNLAYOUT", {
+            urlParameters,
             filters,
             success: (oDataResponse) => {
               const aData = oDataResponse.results || [];
@@ -305,11 +323,19 @@ sap.ui.define(
                   // create smart field to group element
                   const oSmartField = this._createSmartField(
                     sBinding,
-                    bEditable
+                    bEditable,
+                    sBinding === "notes"
                   );
 
                   // add smart field to group element
                   oGroupElement.addElement(oSmartField);
+
+                  // add notes in the group element
+                  if (sBinding === "notes") {
+                    oGroupElement.addElement(
+                      this._createTextArea(sBinding, bEditable)
+                    );
+                  }
 
                   // add group element to group
                   oGroup.addGroupElement(oGroupElement);
@@ -500,7 +526,9 @@ sap.ui.define(
                   const oSubSection = this._createSubSection(key);
 
                   // create smart form to a block
-                  const oSmartForm = this._createSmartForm();
+                  const oSmartForm = this._createSmartForm(
+                    sLayoutTitle.toUpperCase() === "NOTES"
+                  );
 
                   // add group to smart form
                   fnAddFieldsToGroup(key, aItems, oSmartForm, false);
@@ -536,20 +564,29 @@ sap.ui.define(
 
       _createSubSection: (sTitle) => {
         return new ObjectPageSubSection({
-          titleUppercase: false,
-          title: sTitle,
+          titleUppercase: true,
+          title: sTitle.toUpperCase(),
         });
       },
 
-      _createSmartForm: () => {
+      _createSmartForm: (bNotesLayout) => {
+        let oLayout = new ColumnLayout({
+          columnsM: 1,
+          columnsL: 3,
+          columnsXL: 3,
+        });
+
+        if (bNotesLayout) {
+          oLayout = new ColumnLayout({
+            columnsM: 1,
+            columnsL: 2,
+            columnsXL: 2,
+          });
+        }
         // smart form
         return new SmartForm({
           editable: `{oViewModel>/edit}`,
-          layout: new ColumnLayout({
-            columnsM: 1,
-            columnsL: 3,
-            columnsXL: 3,
-          }),
+          layout: oLayout,
         }).addStyleClass("sapUxAPObjectPageSubSectionAlignContent");
       },
 
@@ -565,25 +602,35 @@ sap.ui.define(
         return new GroupElement();
       },
 
-      _createSmartField: (sBinding, bEditable) => {
-        if (sBinding === "notes") {
-          return new TextArea({
-            value: `{path: '${sBinding}',  mode: 'TwoWay'}`,
-            editable: "{oViewModel>/edit}",
-            growing: true,
-            growingMaxLines: 8,
-          });
-        } else {
-          // smart field
-          return new SmartField({
+      _createSmartField: (sBinding, bEditable, bToggleVisibility) => {
+        // smart field
+        let oField = new SmartField({
+          value: `{${sBinding}}`,
+          editable: bEditable,
+          textInEditModeSource: "ValueList",
+          configuration: {
+            displayBehaviour: "descriptionAndId",
+          },
+        });
+
+        // toggle visibility
+        if (bToggleVisibility) {
+          oField = new SmartField({
             value: `{${sBinding}}`,
-            editable: bEditable,
-            textInEditModeSource: "ValueList",
-            configuration: {
-              displayBehaviour: "descriptionAndId",
-            },
+            visible: "{=!${oViewModel>/edit}}",
           });
         }
+
+        return oField;
+      },
+
+      _createTextArea: (sBinding) => {
+        return new TextArea({
+          value: `{path: '${sBinding}',  mode: 'TwoWay'}`,
+          growing: true,
+          growingMaxLines: 8,
+          visible: "{oViewModel>/edit}",
+        });
       },
 
       /**
