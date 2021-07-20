@@ -253,7 +253,7 @@ sap.ui.define(
               // section three - zz_spec_layout
               const oPromise3 = this._loadConstants(oData.zz_spec_layout);
 
-              // section fout - notes
+              // section four - notes
               const oPromise4 = this._loadConstants("Notes");
 
               // close all three promise
@@ -277,7 +277,7 @@ sap.ui.define(
       _loadConstants: function (sLayout) {
         // read constants from service
         return new Promise((reslove, reject) => {
-          // filter
+          // filters
           const filters = [
             new Filter("layout_name", FilterOperator.Contains, sLayout),
           ];
@@ -324,18 +324,11 @@ sap.ui.define(
                   const oSmartField = this._createSmartField(
                     sBinding,
                     bEditable,
-                    sBinding === "notes"
+                    false
                   );
 
                   // add smart field to group element
                   oGroupElement.addElement(oSmartField);
-
-                  // add notes in the group element
-                  if (sBinding === "notes") {
-                    oGroupElement.addElement(
-                      this._createTextArea(sBinding, bEditable)
-                    );
-                  }
 
                   // add group element to group
                   oGroup.addGroupElement(oGroupElement);
@@ -525,16 +518,27 @@ sap.ui.define(
                   // create sub section to section
                   const oSubSection = this._createSubSection(key);
 
-                  // create smart form to a block
-                  const oSmartForm = this._createSmartForm(
-                    sLayoutTitle.toUpperCase() === "NOTES"
-                  );
+                  if (sLayoutTitle.toUpperCase() === "NOTES") {
+                    // add block to sub section
+                    oSubSection.addBlock(
+                      this._createSmartField(
+                        "notes" /* sBinding */,
+                        true /* bEditable */,
+                        true /* bNotesField */
+                      )
+                    );
+                    // add block to sub section
+                    oSubSection.addBlock(this._createTextArea("notes"));
+                  } else {
+                    // create smart form to a block
+                    const oSmartForm = this._createSmartForm();
 
-                  // add group to smart form
-                  fnAddFieldsToGroup(key, aItems, oSmartForm, false);
+                    // add group to smart form
+                    fnAddFieldsToGroup(key, aItems, oSmartForm, false);
 
-                  // add block to sub section
-                  oSubSection.addBlock(oSmartForm);
+                    // add block to sub section
+                    oSubSection.addBlock(oSmartForm);
+                  }
 
                   // add sub section to section
                   oSection.addSubSection(oSubSection);
@@ -569,20 +573,14 @@ sap.ui.define(
         });
       },
 
-      _createSmartForm: (bNotesLayout) => {
-        let oLayout = new ColumnLayout({
+      _createSmartForm: () => {
+        // layout
+        const oLayout = new ColumnLayout({
           columnsM: 1,
           columnsL: 3,
           columnsXL: 3,
         });
 
-        if (bNotesLayout) {
-          oLayout = new ColumnLayout({
-            columnsM: 1,
-            columnsL: 2,
-            columnsXL: 2,
-          });
-        }
         // smart form
         return new SmartForm({
           editable: `{oViewModel>/edit}`,
@@ -602,7 +600,7 @@ sap.ui.define(
         return new GroupElement();
       },
 
-      _createSmartField: (sBinding, bEditable, bToggleVisibility) => {
+      _createSmartField: (sBinding, bEditable, bNotesField) => {
         // smart field
         let oField = new SmartField({
           value: `{${sBinding}}`,
@@ -613,10 +611,11 @@ sap.ui.define(
           },
         });
 
-        // toggle visibility
-        if (bToggleVisibility) {
+        // change in smart control parameters for notes property
+        if (bNotesField) {
           oField = new SmartField({
             value: `{${sBinding}}`,
+            editable: false,
             visible: "{=!${oViewModel>/edit}}",
           });
         }
@@ -626,9 +625,10 @@ sap.ui.define(
 
       _createTextArea: (sBinding) => {
         return new TextArea({
-          value: `{path: '${sBinding}',  mode: 'TwoWay'}`,
+          width: "100%",
           growing: true,
-          growingMaxLines: 8,
+          growingMaxLines: 15,
+          value: `{path: '${sBinding}',  mode: 'TwoWay'}`,
           visible: "{oViewModel>/edit}",
         });
       },
