@@ -14,7 +14,7 @@ sap.ui.define(
     "sap/uxap/ObjectPageSubSection",
     "sap/m/MessageBox",
     "sap/m/TextArea",
-    "sap/m/HBox",
+    "sap/m/MessageStrip",
   ],
   /**
    * @param {typeof sap.ui.core.mvc.Controller} Controller
@@ -34,7 +34,7 @@ sap.ui.define(
     ObjectPageSubSection,
     MessageBox,
     TextArea,
-    HBox
+    MessageStrip
   ) {
     "use strict";
 
@@ -84,6 +84,7 @@ sap.ui.define(
         _oViewModel.setData({
           busy: true,
           edit: false,
+          layoutsAvailable: true,
         });
 
         // set local view model
@@ -121,7 +122,7 @@ sap.ui.define(
 
           // check any row is selected before
           MessageBox.confirm(
-            "Are you sure, you want to delete selected item?",
+            this.getResourceBundle().getText("DEL_CONFIRM_MSG"),
             {
               actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
               emphasizedAction: MessageBox.Action.OK,
@@ -207,6 +208,10 @@ sap.ui.define(
         return UIComponent.getRouterFor(this);
       },
 
+      getResourceBundle: function () {
+        return this.getOwnerComponent().getModel("i18n").getResourceBundle();
+      },
+
       /* =========================================================== */
       /* internal eveent handlers                                    */
       /* =========================================================== */
@@ -243,6 +248,27 @@ sap.ui.define(
               _bLoadOnlyOnce = true;
 
               const oData = oDataResponse.getParameter("data");
+
+              // check for layout data if no layout data available display message - no layout maintained
+              if (
+                oData.zz_role_layout === "" &&
+                oData.zz_cost_layout === "" &&
+                oData.zz_spec_layout === ""
+              ) {
+                // display no layout maintained error strip
+                this._noLayoutMaintained();
+
+                // end busy indicator
+                _oViewModel.setProperty("/busy", false);
+
+                // layout not available
+                _oViewModel.setProperty("/layoutsAvailable", false);
+
+                return;
+              }
+
+              // layout available
+              _oViewModel.setProperty("/layoutsAvailable", true);
 
               // section one - zz_role_layout
               const oPromise1 = this._loadConstants(oData.zz_role_layout);
@@ -557,6 +583,34 @@ sap.ui.define(
             error: (_oError) => reject(),
           });
         });
+      },
+
+      _noLayoutMaintained: function () {
+        // get section title
+        const sTitle = this.getResourceBundle().getText("ERROR");
+
+        // create section to object page layout
+        const oSection = this._createSection(sTitle);
+
+        // create sub section to section
+        const oSubSection = this._createSubSection(sTitle);
+
+        // message strip
+        const oMessageStrip = new MessageStrip({
+          text: this.getResourceBundle().getText("NO_LAYOUT_MSG"),
+          type: "Error",
+          showIcon: true,
+          showCloseButton: false,
+        });
+
+        // add block to sub section
+        oSubSection.addBlock(oMessageStrip);
+
+        // add sub section to section
+        oSection.addSubSection(oSubSection);
+
+        // add section to object page layout
+        _oObjectPageLayout.addSection(oSection);
       },
 
       _createSection: (sTitle) => {

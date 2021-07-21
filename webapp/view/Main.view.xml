@@ -20,16 +20,18 @@
                         <ObjectPageHeader 
                             objectTitle="{i18n>OBJ_TITLE}">
                             <actions>
-                                <m:ToggleButton 
-                                    text="Edit" 
-                                    type="Emphasized"
-                                    press=".handleEdit"
-                                    pressed="{oViewModel>/edit}" 
-                                    visible="{= !${oViewModel>/edit}}"/>
-                                <m:Button 
-                                    text="Delete"
-                                    press=".handleDelete"
-                                    visible="false"/>
+                                <m:HBox visible="{oViewModel>/layoutsAvailable}">
+                                    <m:ToggleButton 
+                                        text="Edit" 
+                                        type="Emphasized"
+                                        press=".handleEdit"
+                                        pressed="{oViewModel>/edit}" 
+                                        visible="{= !${oViewModel>/edit}}"/>
+                                    <m:Button 
+                                        text="Delete"
+                                        press=".handleDelete"
+                                        visible="false"/>
+                                </m:HBox>
                             </actions>
                         </ObjectPageHeader>
                     </headerTitle>
