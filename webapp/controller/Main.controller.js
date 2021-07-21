@@ -251,9 +251,10 @@ sap.ui.define(
 
               // check for layout data if no layout data available display message - no layout maintained
               if (
-                oData.zz_role_layout === "" &&
-                oData.zz_cost_layout === "" &&
-                oData.zz_spec_layout === ""
+                oData === undefined ||
+                (oData.zz_role_layout === "" &&
+                  oData.zz_cost_layout === "" &&
+                  oData.zz_spec_layout === "")
               ) {
                 // display no layout maintained error strip
                 this._noLayoutMaintained();
