@@ -85,7 +85,8 @@
           "defaultBindingMode": "TwoWay",
           "defaultCountMode": "Request",
           "useBatch": true,
-          "refreshAfterChange": true
+          "refreshAfterChange": true,
+          "defaultUpdateMethod": "PUT"
         }
       },
       "constODataModel": {

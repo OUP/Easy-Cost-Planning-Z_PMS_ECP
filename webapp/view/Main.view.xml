@@ -18,19 +18,30 @@
                     <!-- header section -->
                     <headerTitle>
                         <ObjectPageHeader 
-                            objectTitle="{i18n>OBJ_TITLE}">
+                            objectTitle="{i18n>OBJ_TITLE} ({oViewModel>/posid})">
                             <actions>
                                 <m:HBox visible="{oViewModel>/layoutsAvailable}">
                                     <m:ToggleButton 
-                                        text="Edit" 
+                                        text="{i18n>Edit}" 
                                         type="Emphasized"
                                         press=".handleEdit"
                                         pressed="{oViewModel>/edit}" 
+                                        visible="{= !${oViewModel>/edit}}"
+                                        class="sapUiTinyMarginEnd"/>
+                                    <m:Button 
+                                        text="{i18n>Delete}"
+                                        press=".handleDelete"
+                                        visible="false"
+                                        class="sapUiTinyMarginEnd"/>
+                                    <m:Button 
+                                        text="{i18n>PO_CNT}"
+                                        press=".handleCreatePO"
                                         visible="{= !${oViewModel>/edit}}"/>
                                     <m:Button 
-                                        text="Delete"
-                                        press=".handleDelete"
-                                        visible="false"/>
+                                        text="{i18n>Confirm}"
+                                        press=".handleConfirm"
+                                        visible="{oViewModel>/edit}"
+                                        class="sapUiTinyMarginEnd"/>
                                 </m:HBox>
                             </actions>
                         </ObjectPageHeader>

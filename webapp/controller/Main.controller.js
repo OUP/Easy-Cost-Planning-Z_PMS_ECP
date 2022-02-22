@@ -13,6 +13,7 @@ sap.ui.define(
     "sap/uxap/ObjectPageSection",
     "sap/uxap/ObjectPageSubSection",
     "sap/m/MessageBox",
+    "sap/m/MessageToast",
     "sap/m/TextArea",
     "sap/m/MessageStrip",
   ],
@@ -33,6 +34,7 @@ sap.ui.define(
     ObjectPageSection,
     ObjectPageSubSection,
     MessageBox,
+    MessageToast,
     TextArea,
     MessageStrip
   ) {
@@ -44,6 +46,7 @@ sap.ui.define(
     let _oViewModel = new JSONModel();
     let _bLoadOnlyOnce = false;
     let _bCompact = null;
+    let _oStartupParams = null;
 
     return Controller.extend("oup.pms.ecp.controller.Main", {
       /* =========================================================== */
@@ -73,18 +76,12 @@ sap.ui.define(
         // size compact
         _bCompact = !!_oView.$().closest(".sapUiSizeCompact").length;
 
-        // get pattern match
-        // this.getRouter()
-        //   .getRoute("RouteMain")
-        //   .attachPatternMatched(() => {
-        //     debugger;
-        //   });
-
         // set model data
         _oViewModel.setData({
           busy: true,
           edit: false,
           layoutsAvailable: true,
+          posid: "",
         });
 
         // set local view model
@@ -131,6 +128,182 @@ sap.ui.define(
             }
           );
         }
+      },
+
+      handleCreatePO: function () {
+        // start busy indicator
+        _oViewModel.setProperty("/busy", true);
+
+        // function import to create PO / contract
+        _oView.getModel().callFunction("/Create_PO_Contract", {
+          method: "POST",
+          urlParameters: {
+            ean11: _oStartupParams.ean11[0],
+            matnr: _oStartupParams.matnr[0],
+            posid: _oStartupParams.posid[0],
+            prart: _oStartupParams.prart[0],
+            pspid: _oStartupParams.pspid[0],
+          },
+          success: function (oData, _oResponse) {
+            // success message
+            MessageBox.success(oData.Message, {
+              styleClass: _bCompact ? "sapUiSizeCompact" : "",
+            });
+
+            // end busy indicator
+            _oViewModel.setProperty("/busy", false);
+          },
+          error: function (_oError) {
+            try {
+              // read error message
+              const sResponseText = _oError.responseText;
+              const oResponse = JSON.parse(sResponseText);
+              const sErrorText = oResponse.error.message.value;
+
+              // error message
+              MessageBox.error(sErrorText, {
+                styleClass: _bCompact ? "sapUiSizeCompact" : "",
+              });
+            } catch (error) {
+              // unable to read error message
+            }
+
+            // end busy indicator
+            _oViewModel.setProperty("/busy", false);
+          },
+        });
+      },
+
+      handleConfirm: function () {
+        // start busy indicator
+        _oViewModel.setProperty("/busy", true);
+
+        // get view data from view context
+        const oBindingContext = _oView.getBindingContext();
+        const oViewData = oBindingContext.getObject();
+        const sPath = oBindingContext.getPath();
+
+        // function import to create PO / contract
+        _oView.getModel().callFunction("/Confirm_MFG", {
+          method: "POST",
+          urlParameters: {
+            matnr: _oStartupParams.matnr[0],
+            posid: _oStartupParams.posid[0],
+            pspid: _oStartupParams.pspid[0],
+            zz_pk_cst2: oViewData.zz_pk_cst2,
+            zz_qty_pub1: oViewData.zz_qty_pub1,
+            zz_cost_layout: oViewData.zz_cost_layout,
+            zz_spec_layout: oViewData.zz_spec_layout,
+
+            // estimate 1
+            zcr1: `${oViewData.zz_zcr}-${oViewData.zz_zcru}-${oViewData.zz_zcr_curr}`,
+            zcv1: `${oViewData.zz_zcv}-${oViewData.zz_zcvu}-${oViewData.zz_zcv_curr}`,
+            zefr1: `${oViewData.zz_zefr}-${oViewData.zz_zefru}-${oViewData.zz_zefr_curr}`,
+            zhk1: `${oViewData.zz_zhk}-${oViewData.zz_zhku}-${oViewData.zz_zhk_curr}`,
+            zmiv1: `${oViewData.zz_zmiv}-${oViewData.zz_zmivu}-${oViewData.zz_zmiv_curr}`,
+            zot1: `${oViewData.zz_zot}-${oViewData.zz_zotu}-${oViewData.zz_zot_curr}`,
+            zpk1: `${oViewData.zz_zpk}-${oViewData.zz_zpku}-${oViewData.zz_zpk_curr}`,
+            ztp1: `${oViewData.zz_ztp}-${oViewData.zz_ztpu}-${oViewData.zz_ztp_curr}`,
+            zzz1: `${oViewData.zz_zzz}-${oViewData.zz_zzzu}-${oViewData.zz_zzz_curr}`,
+
+            // estimate 2
+            zcr2: `${oViewData.zz_zcr_2}-${oViewData.zz_zcru_2}-${oViewData.zz_zcr_curr2}`,
+            zcv2: `${oViewData.zz_zcv_2}-${oViewData.zz_zcvu_2}-${oViewData.zz_zcv_curr2}`,
+            zefr2: `${oViewData.zz_zefr_2}-${oViewData.zz_zefru_2}-${oViewData.zz_zefr_curr2}`,
+            zhk2: `${oViewData.zz_zhk_2}-${oViewData.zz_zhku_2}-${oViewData.zz_zhk_curr2}`,
+            zmiv2: `${oViewData.zz_zmiv_2}-${oViewData.zz_zmivu_2}-${oViewData.zz_zmiv_curr2}`,
+            zot2: `${oViewData.zz_zot_2}-${oViewData.zz_zotu_2}-${oViewData.zz_zot_curr2}`,
+            zpk2: `${oViewData.zz_zpk_2}-${oViewData.zz_zpku_2}-${oViewData.zz_zpk_curr2}`,
+            ztp2: `${oViewData.zz_ztp_2}-${oViewData.zz_ztpu_2}-${oViewData.zz_ztp_curr2}`,
+            zzz2: `${oViewData.zz_zzz_2}-${oViewData.zz_zzzu_2}-${oViewData.zz_zzz_curr2}`,
+
+            // estimate 3
+            zcr3: `${oViewData.zz_zcr_3}-${oViewData.zz_zcru_3}-${oViewData.zz_zcr_curr3}`,
+            zcv3: `${oViewData.zz_zcv_3}-${oViewData.zz_zcvu_3}-${oViewData.zz_zcv_curr3}`,
+            zefr3: `${oViewData.zz_zefr_3}-${oViewData.zz_zefru_3}-${oViewData.zz_zefr_curr3}`,
+            zhk3: `${oViewData.zz_zhk_3}-${oViewData.zz_zhku_3}-${oViewData.zz_zhk_curr3}`,
+            zmiv3: `${oViewData.zz_zmiv_3}-${oViewData.zz_zmivu_3}-${oViewData.zz_zmiv_curr3}`,
+            zot3: `${oViewData.zz_zot_3}-${oViewData.zz_zotu_3}-${oViewData.zz_zot_curr3}`,
+            zpk3: `${oViewData.zz_zpk_3}-${oViewData.zz_zpku_3}-${oViewData.zz_zpk_curr3}`,
+            ztp3: `${oViewData.zz_ztp_3}-${oViewData.zz_ztpu_3}-${oViewData.zz_ztp_curr3}`,
+            zzz3: `${oViewData.zz_zzz_3}-${oViewData.zz_zzu_3}-${oViewData.zz_zzz_curr3}`,
+
+            // quantity
+            zqty1: oViewData.zz_qty,
+            zqty2: oViewData.zz_qty2,
+            zqty3: oViewData.zz_qty3,
+
+            // weight
+            zz_weight: oViewData.zz_weight,
+
+            // printer
+            zz_printer: oViewData.zz_printer,
+          },
+          success: function (oData, _oResponse) {
+            // success message
+            // message toast
+            MessageToast.show(oData.message);
+
+            // OData Model
+            const oModel = _oView.getModel();
+
+            // update response values
+            oModel.setProperty(`${sPath}/zz_pk_cst2`, oData.zz_pk_cst2);
+            oModel.setProperty(`${sPath}/zz_un_cst1`, oData.zz_un_cst1);
+            oModel.setProperty(`${sPath}/zz_tot_cost1`, oData.zz_tot_cost1);
+            oModel.setProperty(`${sPath}/zz_tot_curr1`, oData.zz_tot_curr1);
+            oModel.setProperty(`${sPath}/zz_un_curr`, oData.zz_un_curr);
+            oModel.setProperty(`${sPath}/zz_un_cst2`, oData.zz_un_cst2);
+            oModel.setProperty(`${sPath}/zz_un_cst3`, oData.zz_un_cst3);
+            oModel.setProperty(`${sPath}/zz_tot_cost2`, oData.zz_tot_cost2);
+            oModel.setProperty(`${sPath}/zz_tot_cost3`, oData.zz_tot_cost3);
+            oModel.setProperty(`${sPath}/zz_un_curr2`, oData.zz_un_curr2);
+            oModel.setProperty(`${sPath}/zz_un_curr3`, oData.zz_un_curr3);
+            oModel.setProperty(`${sPath}/zz_tot_curr2`, oData.zz_tot_curr2);
+            oModel.setProperty(`${sPath}/zz_tot_curr3`, oData.zz_tot_curr3);
+
+            // importing parameters
+            oModel.setProperty(`${sPath}/zz_zhk`, oData.zz_zhk);
+            oModel.setProperty(`${sPath}/zz_zhku`, oData.zz_zhku);
+            oModel.setProperty(`${sPath}/zz_zhk_curr`, oData.zz_zhk_curr);
+            oModel.setProperty(`${sPath}/zz_zefr`, oData.zz_zefr);
+            oModel.setProperty(`${sPath}/zz_zefru`, oData.zz_zefru);
+            oModel.setProperty(`${sPath}/zz_zefr_curr`, oData.zz_zefr_curr);
+            oModel.setProperty(`${sPath}/zz_zhk_2`, oData.zz_zhk_2);
+            oModel.setProperty(`${sPath}/zz_zhku_2`, oData.zz_zhku_2);
+            oModel.setProperty(`${sPath}/zz_zhk_curr2`, oData.zz_zhk_curr2);
+            oModel.setProperty(`${sPath}/zz_zefr_2`, oData.zz_zefr_2);
+            oModel.setProperty(`${sPath}/zz_zefru_2`, oData.zz_zefru_2);
+            oModel.setProperty(`${sPath}/zz_zefr_curr2`, oData.zz_zefr_curr2);
+            oModel.setProperty(`${sPath}/zz_zhk_3`, oData.zz_zhk_3);
+            oModel.setProperty(`${sPath}/zz_zhku_3`, oData.zz_zhku_3);
+            oModel.setProperty(`${sPath}/zz_zhk_curr3`, oData.zz_zhk_curr3);
+            oModel.setProperty(`${sPath}/zz_zefr_3`, oData.zz_zefr_3);
+            oModel.setProperty(`${sPath}/zz_zefru_3`, oData.zz_zefru_3);
+            oModel.setProperty(`${sPath}/zz_zefr_curr3`, oData.zz_zefr_curr3);
+
+            // end busy indicator
+            _oViewModel.setProperty("/busy", false);
+          },
+          error: function (_oError) {
+            try {
+              // read error message
+              const sResponseText = _oError.responseText;
+              const oResponse = JSON.parse(sResponseText);
+              const sErrorText = oResponse.error.message.value;
+
+              // error message
+              MessageBox.error(sErrorText, {
+                styleClass: _bCompact ? "sapUiSizeCompact" : "",
+              });
+            } catch (error) {
+              // unable to read error message
+            }
+
+            // end busy indicator
+            _oViewModel.setProperty("/busy", false);
+          },
+        });
       },
 
       handleSave: function () {
@@ -226,13 +399,20 @@ sap.ui.define(
         let supplierID;
 
         // get startup params from Owner Component
-        // const startupParams = oComponent.getComponentData()
-        //   .startupParameters;
+        const oComponent = this.getOwnerComponent();
+        const oComponentData = oComponent.getComponentData();
 
-        const oParameters = jQuery.sap.getUriParameters().mParams;
+        try {
+          _oStartupParams = oComponentData.startupParameters;
+        } catch (error) {
+          _oStartupParams = jQuery.sap.getUriParameters().mParams;
+        }
+
+        // set impression number for header title
+        _oViewModel.setProperty("/posid", _oStartupParams.posid[0]);
 
         _oView.bindElement({
-          path: `/ZPMS_C_MFG_PROJ(matnr=${oParameters.matnr},pspid=${oParameters.pspid},ean11=${oParameters.ean11},prart=${oParameters.prart},posid=${oParameters.posid})`,
+          path: `/ZPMS_C_MFG_PROJ(matnr='${_oStartupParams.matnr[0]}',pspid='${_oStartupParams.pspid[0]}',ean11='${_oStartupParams.ean11[0]}',prart='${_oStartupParams.prart[0]}',posid='${_oStartupParams.posid[0]}')`,
           events: {
             dataRequested: () => {
               _oViewModel.setProperty("/busy", true);
@@ -294,7 +474,7 @@ sap.ui.define(
           },
         });
 
-        // if (startupParams.supplierID && startupParams.supplierID[0]) {
+        // if (_oStartupParams.supplierID && _oStartupParams.supplierID[0]) {
         //   // read Supplier ID. Every parameter is placed in an array therefore [0] holds the value
         // } else {
         //   this.getRouter().getTargets().display("detailNoObjectsAvailable");
@@ -379,7 +559,7 @@ sap.ui.define(
                   // 1: "Estimate 1|Main Costs|Total"
                   // 2: "Estimate 1|Main Costs|Unit"
                   // 3: "Estimate 1|Main Costs|Currency"
-                  // 4: "Estimate 1|Main Costs| Total"
+                  // 4: "Estimate 1|Main Costs|Total"
                   // 5: "Estimate 1|Other Costs|Total"
                   // 6: "Estimate 1|Other Costs|Unit"
                   // 7: "Estimate 1|Other Costs|Currency"
