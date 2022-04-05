@@ -234,10 +234,10 @@ sap.ui.define(
             zqty3: oViewData.zz_qty3,
 
             // weight
-            zz_weight: oViewData.zz_weight,
+            zz_weight: oViewData.zz_weight || "",
 
             // printer
-            zz_printer: oViewData.zz_printer,
+            zz_printer: oViewData.zz_printer || "",
           },
           success: function (oData, _oResponse) {
             // success message
