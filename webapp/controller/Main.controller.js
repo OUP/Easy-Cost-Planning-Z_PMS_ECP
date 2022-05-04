@@ -238,6 +238,12 @@ sap.ui.define(
 
             // printer
             zz_printer: oViewData.zz_printer || "",
+
+            // ERPD-627: ECP Screen CR : Weight Calculation
+            ZZ_FORMAT: oViewData.zz_format || "",
+            ZZ_EXTENT: oViewData.zz_extent || "",
+            ZZ_COVER_BOARD_WEIGHT: oViewData.zz_cover_board_weight || "",
+            ZZ_PAPER_WEIGHT_N: oViewData.zz_paper_weight_n || "",
           },
           success: function (oData, _oResponse) {
             // success message
@@ -281,6 +287,9 @@ sap.ui.define(
             oModel.setProperty(`${sPath}/zz_zefr_3`, oData.zz_zefr_3);
             oModel.setProperty(`${sPath}/zz_zefru_3`, oData.zz_zefru_3);
             oModel.setProperty(`${sPath}/zz_zefr_curr3`, oData.zz_zefr_curr3);
+
+            // ERPD-627: ECP Screen CR : Weight Calculation
+            oModel.setProperty(`${sPath}/zz_weight`, oData.ZZ_WEIGHT);
 
             // end busy indicator
             _oViewModel.setProperty("/busy", false);
