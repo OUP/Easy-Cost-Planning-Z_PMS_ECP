@@ -47,6 +47,7 @@ sap.ui.define(
     let _bLoadOnlyOnce = false;
     let _bCompact = null;
     let _oStartupParams = null;
+    const _sTimeStamp = new Date().getTime();
 
     return Controller.extend("oup.pms.ecp.controller.Main", {
       /* =========================================================== */
@@ -57,7 +58,10 @@ sap.ui.define(
         const oComponent = this.getOwnerComponent();
         const oDataModel = oComponent.getModel();
         const oConstDataModel = oComponent.getModel("constODataModel");
-        const fnChangeMetadataModel = (_) => oDataModel.setSizeLimit(500);
+        const fnChangeMetadataModel = (_) => { 
+            oDataModel.setSizeLimit(500);
+            oDataModel.setDeferredGroups(oDataModel.getDeferredGroups().concat([_sTimeStamp]));
+        }
         const fnChangeConstMetadataModel = (_) =>
           oConstDataModel.setSizeLimit(500);
 
@@ -183,8 +187,11 @@ sap.ui.define(
         const oViewData = oBindingContext.getObject();
         const sPath = oBindingContext.getPath();
 
+        // OData Model
+        const oDataModel = _oView.getModel();
+
         // function import to create PO / contract
-        _oView.getModel().callFunction("/Confirm_MFG", {
+        oDataModel.callFunction("/Confirm_MFG", {
           method: "POST",
           urlParameters: {
             matnr: _oStartupParams.matnr[0],
@@ -250,46 +257,49 @@ sap.ui.define(
             // message toast
             MessageToast.show(oData.message);
 
-            // OData Model
-            const oModel = _oView.getModel();
-
             // update response values
-            oModel.setProperty(`${sPath}/zz_pk_cst2`, oData.zz_pk_cst2);
-            oModel.setProperty(`${sPath}/zz_un_cst1`, oData.zz_un_cst1);
-            oModel.setProperty(`${sPath}/zz_tot_cost1`, oData.zz_tot_cost1);
-            oModel.setProperty(`${sPath}/zz_tot_curr1`, oData.zz_tot_curr1);
-            oModel.setProperty(`${sPath}/zz_un_curr`, oData.zz_un_curr);
-            oModel.setProperty(`${sPath}/zz_un_cst2`, oData.zz_un_cst2);
-            oModel.setProperty(`${sPath}/zz_un_cst3`, oData.zz_un_cst3);
-            oModel.setProperty(`${sPath}/zz_tot_cost2`, oData.zz_tot_cost2);
-            oModel.setProperty(`${sPath}/zz_tot_cost3`, oData.zz_tot_cost3);
-            oModel.setProperty(`${sPath}/zz_un_curr2`, oData.zz_un_curr2);
-            oModel.setProperty(`${sPath}/zz_un_curr3`, oData.zz_un_curr3);
-            oModel.setProperty(`${sPath}/zz_tot_curr2`, oData.zz_tot_curr2);
-            oModel.setProperty(`${sPath}/zz_tot_curr3`, oData.zz_tot_curr3);
+            oDataModel.setProperty(`${sPath}/zz_pk_cst2`, oData.zz_pk_cst2);
+            oDataModel.setProperty(`${sPath}/zz_un_cst1`, oData.zz_un_cst1);
+            oDataModel.setProperty(`${sPath}/zz_tot_cost1`, oData.zz_tot_cost1);
+            oDataModel.setProperty(`${sPath}/zz_tot_curr1`, oData.zz_tot_curr1);
+            oDataModel.setProperty(`${sPath}/zz_un_curr`, oData.zz_un_curr);
+            oDataModel.setProperty(`${sPath}/zz_un_cst2`, oData.zz_un_cst2);
+            oDataModel.setProperty(`${sPath}/zz_un_cst3`, oData.zz_un_cst3);
+            oDataModel.setProperty(`${sPath}/zz_tot_cost2`, oData.zz_tot_cost2);
+            oDataModel.setProperty(`${sPath}/zz_tot_cost3`, oData.zz_tot_cost3);
+            oDataModel.setProperty(`${sPath}/zz_un_curr2`, oData.zz_un_curr2);
+            oDataModel.setProperty(`${sPath}/zz_un_curr3`, oData.zz_un_curr3);
+            oDataModel.setProperty(`${sPath}/zz_tot_curr2`, oData.zz_tot_curr2);
+            oDataModel.setProperty(`${sPath}/zz_tot_curr3`, oData.zz_tot_curr3);
 
             // importing parameters
-            oModel.setProperty(`${sPath}/zz_zhk`, oData.zz_zhk);
-            oModel.setProperty(`${sPath}/zz_zhku`, oData.zz_zhku);
-            oModel.setProperty(`${sPath}/zz_zhk_curr`, oData.zz_zhk_curr);
-            oModel.setProperty(`${sPath}/zz_zefr`, oData.zz_zefr);
-            oModel.setProperty(`${sPath}/zz_zefru`, oData.zz_zefru);
-            oModel.setProperty(`${sPath}/zz_zefr_curr`, oData.zz_zefr_curr);
-            oModel.setProperty(`${sPath}/zz_zhk_2`, oData.zz_zhk_2);
-            oModel.setProperty(`${sPath}/zz_zhku_2`, oData.zz_zhku_2);
-            oModel.setProperty(`${sPath}/zz_zhk_curr2`, oData.zz_zhk_curr2);
-            oModel.setProperty(`${sPath}/zz_zefr_2`, oData.zz_zefr_2);
-            oModel.setProperty(`${sPath}/zz_zefru_2`, oData.zz_zefru_2);
-            oModel.setProperty(`${sPath}/zz_zefr_curr2`, oData.zz_zefr_curr2);
-            oModel.setProperty(`${sPath}/zz_zhk_3`, oData.zz_zhk_3);
-            oModel.setProperty(`${sPath}/zz_zhku_3`, oData.zz_zhku_3);
-            oModel.setProperty(`${sPath}/zz_zhk_curr3`, oData.zz_zhk_curr3);
-            oModel.setProperty(`${sPath}/zz_zefr_3`, oData.zz_zefr_3);
-            oModel.setProperty(`${sPath}/zz_zefru_3`, oData.zz_zefru_3);
-            oModel.setProperty(`${sPath}/zz_zefr_curr3`, oData.zz_zefr_curr3);
+            oDataModel.setProperty(`${sPath}/zz_zhk`, oData.zz_zhk);
+            oDataModel.setProperty(`${sPath}/zz_zhku`, oData.zz_zhku);
+            oDataModel.setProperty(`${sPath}/zz_zhk_curr`, oData.zz_zhk_curr);
+            oDataModel.setProperty(`${sPath}/zz_zefr`, oData.zz_zefr);
+            oDataModel.setProperty(`${sPath}/zz_zefru`, oData.zz_zefru);
+            oDataModel.setProperty(`${sPath}/zz_zefr_curr`, oData.zz_zefr_curr);
+            oDataModel.setProperty(`${sPath}/zz_zhk_2`, oData.zz_zhk_2);
+            oDataModel.setProperty(`${sPath}/zz_zhku_2`, oData.zz_zhku_2);
+            oDataModel.setProperty(`${sPath}/zz_zhk_curr2`, oData.zz_zhk_curr2);
+            oDataModel.setProperty(`${sPath}/zz_zefr_2`, oData.zz_zefr_2);
+            oDataModel.setProperty(`${sPath}/zz_zefru_2`, oData.zz_zefru_2);
+            oDataModel.setProperty(`${sPath}/zz_zefr_curr2`, oData.zz_zefr_curr2);
+            oDataModel.setProperty(`${sPath}/zz_zhk_3`, oData.zz_zhk_3);
+            oDataModel.setProperty(`${sPath}/zz_zhku_3`, oData.zz_zhku_3);
+            oDataModel.setProperty(`${sPath}/zz_zhk_curr3`, oData.zz_zhk_curr3);
+            oDataModel.setProperty(`${sPath}/zz_zefr_3`, oData.zz_zefr_3);
+            oDataModel.setProperty(`${sPath}/zz_zefru_3`, oData.zz_zefru_3);
+            oDataModel.setProperty(`${sPath}/zz_zefr_curr3`, oData.zz_zefr_curr3);
+
+            // ERPD-3265: Update Exchange rates in the ISBN cockpit after pressing "Confirm" button
+            oDataModel.setProperty(`${sPath}/zz_er_eur`, oData.zz_er_eur);
+            oDataModel.setProperty(`${sPath}/zz_er_gbp`, oData.zz_er_gbp);
+            oDataModel.setProperty(`${sPath}/zz_er_hkd`, oData.zz_er_hkd);
+            oDataModel.setProperty(`${sPath}/zz_er_usd`, oData.zz_er_usd);
 
             // ERPD-627: ECP Screen CR : Weight Calculation
-            oModel.setProperty(`${sPath}/zz_weight`, oData.ZZ_WEIGHT);
+            oDataModel.setProperty(`${sPath}/zz_weight`, oData.ZZ_WEIGHT);
 
             // end busy indicator
             _oViewModel.setProperty("/busy", false);
@@ -362,7 +372,7 @@ sap.ui.define(
             }
 
             // clear the changes/ reset
-            _oView.getModel().refresh();
+            _oView.getModel().resetChanges();
 
             // toggle back to non-edit mode
             _oViewModel.setProperty("/edit", false);
