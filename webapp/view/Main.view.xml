@@ -1,63 +1,33 @@
-<mvc:View
-    controllerName="oup.pms.ecp.controller.Main"
-    xmlns:mvc="sap.ui.core.mvc"
-    displayBlock="true"
-    xmlns:m="sap.m"
-	xmlns="sap.uxap">
-
-	<m:Shell id="shell-id">
-		<m:App id="app-id">
-			<m:pages>
+<mvc:View controllerName="oup.pms.ecp.controller.Main" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns:m="sap.m" xmlns="sap.uxap">
+    <m:Shell id="shell-id" appWidthLimited="false">
+        <m:App id="app-id">
+            <m:pages>
                 <!-- page -->
-				<ObjectPageLayout id="object-page-layout-id"
-                    busy="{oViewModel>/busy}"
-                    showFooter="{oViewModel>/edit}"
-                    useTwoColumnsForLargeScreen="true"
-                    upperCaseAnchorBar="false">
-
+                <ObjectPageLayout id="object-page-layout-id" busy="{oViewModel>/busy}" showFooter="{oViewModel>/edit}" useTwoColumnsForLargeScreen="true" upperCaseAnchorBar="false">
                     <!-- header section -->
                     <headerTitle>
-                        <ObjectPageHeader 
-                            objectTitle="{i18n>OBJ_TITLE} ({oViewModel>/posid})">
+                        <ObjectPageHeader objectTitle="{i18n>OBJ_TITLE} ({oViewModel>/posid})">
                             <actions>
                                 <m:HBox visible="{oViewModel>/layoutsAvailable}">
-                                    <m:ToggleButton 
-                                        text="{i18n>Edit}" 
-                                        type="Emphasized"
-                                        press=".handleEdit"
-                                        pressed="{oViewModel>/edit}" 
-                                        visible="{= !${oViewModel>/edit}}"
-                                        class="sapUiTinyMarginEnd"/>
-                                    <m:Button 
-                                        text="{i18n>Delete}"
-                                        press=".handleDelete"
-                                        visible="false"
-                                        class="sapUiTinyMarginEnd"/>
-                                    <m:Button 
-                                        text="{i18n>PO_CNT}"
-                                        press=".handleCreatePO"
-                                        visible="{= !${oViewModel>/edit}}"/>
-                                    <m:Button 
-                                        text="{i18n>Confirm}"
-                                        press=".handleConfirm"
-                                        visible="{oViewModel>/edit}"
-                                        class="sapUiTinyMarginEnd"/>
+                                    <m:ToggleButton text="{i18n>Edit}" type="Emphasized" press=".handleEdit" pressed="{oViewModel>/edit}" visible="{= !${oViewModel>/edit}}" class="sapUiTinyMarginEnd" />
+                                    <m:Button text="{i18n>Delete}" press=".handleDelete" visible="false" class="sapUiTinyMarginEnd" />
+                                    <m:Button text="{i18n>PO_CNT}" press=".handleCreatePO" visible="{= !${oViewModel>/edit}}" />
+                                    <m:Button text="{i18n>Confirm}" press=".handleConfirm" visible="{oViewModel>/edit}" class="sapUiTinyMarginEnd" />
                                 </m:HBox>
                             </actions>
                         </ObjectPageHeader>
                     </headerTitle>
-                    
+
                     <!-- footer section -->
                     <footer>
                         <m:OverflowToolbar>
-                            <m:ToolbarSpacer/>
-                            <m:Button text="Save" type="Emphasized" press=".handleSave"/>
-                            <m:Button text="Cancel" press=".handleCancel"/>
+                            <m:ToolbarSpacer />
+                            <m:Button text="Save" type="Emphasized" press=".handleSave" />
+                            <m:Button text="Cancel" press=".handleCancel" />
                         </m:OverflowToolbar>
                     </footer>
-	            </ObjectPageLayout>
-			</m:pages>
-		</m:App>
-	</m:Shell> 
-
+                </ObjectPageLayout>
+            </m:pages>
+        </m:App>
+    </m:Shell>
 </mvc:View>
