@@ -58,10 +58,12 @@ sap.ui.define(
         const oComponent = this.getOwnerComponent();
         const oDataModel = oComponent.getModel();
         const oConstDataModel = oComponent.getModel("constODataModel");
-        const fnChangeMetadataModel = (_) => { 
-            oDataModel.setSizeLimit(500);
-            oDataModel.setDeferredGroups(oDataModel.getDeferredGroups().concat([_sTimeStamp]));
-        }
+        const fnChangeMetadataModel = (_) => {
+          oDataModel.setSizeLimit(500);
+          oDataModel.setDeferredGroups(
+            oDataModel.getDeferredGroups().concat([_sTimeStamp])
+          );
+        };
         const fnChangeConstMetadataModel = (_) =>
           oConstDataModel.setSizeLimit(500);
 
@@ -251,6 +253,9 @@ sap.ui.define(
             ZZ_EXTENT: oViewData.zz_extent || "",
             ZZ_COVER_BOARD_WEIGHT: oViewData.zz_cover_board_weight || "",
             ZZ_PAPER_WEIGHT_N: oViewData.zz_paper_weight_n || "",
+
+            // ERPD-XXX: ECP Screen CR: Manual Weight
+            zz_weight_m: oViewData.zz_weight_m || "",
           },
           success: function (oData, _oResponse) {
             // success message
@@ -284,13 +289,19 @@ sap.ui.define(
             oDataModel.setProperty(`${sPath}/zz_zhk_curr2`, oData.zz_zhk_curr2);
             oDataModel.setProperty(`${sPath}/zz_zefr_2`, oData.zz_zefr_2);
             oDataModel.setProperty(`${sPath}/zz_zefru_2`, oData.zz_zefru_2);
-            oDataModel.setProperty(`${sPath}/zz_zefr_curr2`, oData.zz_zefr_curr2);
+            oDataModel.setProperty(
+              `${sPath}/zz_zefr_curr2`,
+              oData.zz_zefr_curr2
+            );
             oDataModel.setProperty(`${sPath}/zz_zhk_3`, oData.zz_zhk_3);
             oDataModel.setProperty(`${sPath}/zz_zhku_3`, oData.zz_zhku_3);
             oDataModel.setProperty(`${sPath}/zz_zhk_curr3`, oData.zz_zhk_curr3);
             oDataModel.setProperty(`${sPath}/zz_zefr_3`, oData.zz_zefr_3);
             oDataModel.setProperty(`${sPath}/zz_zefru_3`, oData.zz_zefru_3);
-            oDataModel.setProperty(`${sPath}/zz_zefr_curr3`, oData.zz_zefr_curr3);
+            oDataModel.setProperty(
+              `${sPath}/zz_zefr_curr3`,
+              oData.zz_zefr_curr3
+            );
 
             // ERPD-3265: Update Exchange rates in the ISBN cockpit after pressing "Confirm" button
             oDataModel.setProperty(`${sPath}/zz_er_eur`, oData.zz_er_eur);
@@ -483,12 +494,9 @@ sap.ui.define(
               const oPromise4 = this._loadConstants("Notes");
 
               // close all three promise
-              Promise.all([
-                oPromise1,
-                oPromise2,
-                oPromise3,
-                oPromise4,
-              ]).finally(() => _oViewModel.setProperty("/busy", false));
+              Promise.all([oPromise1, oPromise2, oPromise3, oPromise4]).finally(
+                () => _oViewModel.setProperty("/busy", false)
+              );
             },
           },
         });
